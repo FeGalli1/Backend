@@ -1,4 +1,13 @@
 
+// Verificar si el archivo package.json existe
+if (!fs.existsSync('package.json')) {
+  // Crear un archivo package.json vacío
+  fs.writeFileSync('package.json', '{}');
+  console.log('Created package.json');
+} else {
+  console.log('package.json already exists');
+}
+
 
 class ProductManage{
     constructor(){
