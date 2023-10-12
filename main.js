@@ -1,16 +1,24 @@
 const express = require('express');
+const { engine } = require('express-handlebars');
+
+const http = require('http');
+const socketIo = require('socket.io');
+
 const ProductManager = require('./src/class/ProductManager')
 const productManager = new ProductManager("./src/json/productos.json");
 
 const CartManager = require('./src/class/CartManager');
 const cartManager = new CartManager('./src/json/carts.json'); // Cambia la ruta si es diferente
 
-
-
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.engine('handlebars', engine({ extname: '.hbs', defaultLayout: "main"}));app.set('view engine', 'handlebars');
 
 const productsRouter = express.Router();
 const cartsRouter = express.Router();
@@ -18,11 +26,10 @@ const cartsRouter = express.Router();
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-
 // GET /
 productsRouter.get('/', async (req, res) => {
     const products = await productManager.getAll();
-    res.status(200).json(products)
+    res.status(200).json(products);
 });
 // GET /api/productos/:id
 productsRouter.get('/:id', async (req, res) => {
@@ -81,9 +88,22 @@ cartsRouter.get('/:cid', async (req, res) => {
       : res.status(404).send('No se pudo agregar el producto al carrito');
   });
 
-const PORT = 8080;
-const server = app.listen(PORT, () => {
-console.log(` >>>>> 🚀 Server started at http://localhost:${PORT}`)
-})
 
-server.on('error', (err) => console.log(err));
+  const PORT = 8080;
+  server.listen(PORT, () => {
+    console.log(` >>>>> 🚀 Server started at http://localhost:${PORT}`);
+  });
+  
+  io.on('connection', (socket) => {
+    // Envía los datos de productos al cliente cuando se conecta
+    socket.emit('products', products);
+  
+    // Escucha un nuevo producto y actualiza la lista de productos
+    socket.on('nuevoProducto', (nuevoProducto) => {
+      // Agrega el nuevo producto a la lista de productos
+      products.push(nuevoProducto);
+  
+      // Emite la lista actualizada de productos a todos los clientes
+      io.emit('products', products);
+    });
+  });
