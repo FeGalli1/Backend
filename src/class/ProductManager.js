@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from 'fs';
 
 class ProductManager {
   constructor(fileName) {
@@ -8,9 +8,9 @@ class ProductManager {
 
   async _readFileOrCreateNewOne() {
     try {
-      await fs.promises.readFile(this._filename, "utf-8");
+      await fs.promises.readFile(this._filename, 'utf-8');
     } catch (error) {
-      error.code === "ENOENT"
+      error.code === 'ENOENT'
         ? this._createEmptyFile()
         : console.log(
             `Error Code: ${error.code} | There was an unexpected error when trying to read ${this._filename}`
@@ -19,10 +19,12 @@ class ProductManager {
   }
 
   async _createEmptyFile() {
-    fs.writeFile(this._filename, "[]", (error) => {
+    fs.promises.writeFile(this._filename, '[]', (error) => {
       error
         ? console.log(error)
-        : console.log(`File ${this._filename} was created since it didn't exist in the system`);
+        : console.log(
+            `File ${this._filename} was created since it didn't exist in the system`
+          );
     });
   }
 
@@ -75,7 +77,7 @@ class ProductManager {
       );
       if (objectIdToBeUpdated) {
         const index = parsedData.indexOf(objectIdToBeUpdated);
-        const {title, price, thumbnail} = newData;
+        const { title, price, thumbnail } = newData;
 
         parsedData[index]['title'] = title;
         parsedData[index]['price'] = price;
@@ -86,7 +88,6 @@ class ProductManager {
         console.log(`ID ${id} does not exist in the file`);
         return null;
       }
-
     } catch (error) {
       `Error Code: ${error.code} | There was an error when trying to update an element by its ID (${id})`
     }
@@ -120,7 +121,7 @@ class ProductManager {
   }
 
   async getData() {
-    const data = await fs.promises.readFile(this._filename, "utf-8");
+    const data = await fs.promises.readFile(this._filename, 'utf-8');
     return data;
   }
 
@@ -130,4 +131,4 @@ class ProductManager {
   }
 }
 
-module.exports = ProductManager;
+export default ProductManager;

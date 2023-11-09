@@ -1,20 +1,40 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect main.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2",
-    "express-handlebars": "^7.1.2",
-    "socket.io": "^4.7.2"
-  },
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  }
+    "name": "proyecto-backend-galli",
+    "version": "0.0.0",
+    "description": "Proyecto servidor para un e-commers",
+    "private": "true",
+    "type": "module",
+    "scripts": {
+        "postinstall": "husky install",
+        "start": "node ./src/app.js",
+        "dev": "nodemon src/app.js",
+        "format": "prettier --write .",
+        "lint": "eslint --fix . --ext .js"
+    },
+    "keywords": [],
+    "author": "Felipe Galli",
+    "license": "MIT",
+    "devDependencies": {
+        "@commitlint/cli": "17.7.2",
+        "@commitlint/config-conventional": "17.7.0",
+        "dotenv": "16.3.1",
+        "eslint": "8.50.0",
+        "husky": "8.0.3",
+        "lint-staged": "14.0.1",
+        "nodemon": "3.0.1",
+        "prettier": "3.0.3"
+    },
+    "engines": {
+        "node": ">=18",
+        "npm": ">=9"
+    },
+    "dependencies": {
+        "cors": "2.8.5",
+        "express": "4.18.2",
+        "express-handlebars": "7.1.2",
+        "mongoose": "8.0.0",
+        "socket.io": "4.7.2",
+        "swagger-ui-express": "5.0.0",
+        "yamljs": "0.3.0"
+    }
 }

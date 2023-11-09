@@ -1,0 +1,171 @@
+openapi: 3.0.3
+
+info:
+  version: 0.0.1
+  title: 'products REST API'
+  description: 'products API is a RESTful API '
+  termsOfService: TERMS_OF:SERVICE
+  license:
+    name: MIT
+    url: LICENSE
+  contact:
+    name: Felipe Galli
+    email: felipegall1.fg@gmail.con
+
+tags:
+  - name: product
+    description: todo sobre productos
+  
+servers:
+  - url: https://{HOST}:{PORT}/{BASE_PATH}
+    variables:
+      HOST:
+        default: '127.0.0.1'
+      PORT:
+        default: '3000'
+      BASE_PATH:
+        default: api
+
+# CRUD --> CREAT --> POST --- READ ---> GET --- UPDATE -->PUT | PATCH --- DELETE -->DELETE
+paths:
+  /product:
+    get:
+      tags:
+        - product
+      summary: Get all products
+      responses:
+        200:
+          description: A JSON array of products
+          content:
+            aplication/json:
+              schema:
+                type: object
+                items: 
+                  $ref: '#/components/schemas/Product'
+
+        404:
+          description: Return message when is not possible found products
+          content:
+            aplication/json:
+              schema:
+                type: object
+                items: 
+                  $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            aplication/json:
+              schema:
+                type: object
+                items: 
+                  $ref: '#/components/schemas/Error'
+    post:
+      tags:
+          - product
+      summary: Create a product
+      responses:
+        201:
+          description: A new peroduct have been created
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description:  Unexpected error
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /product/{productId}:
+    parameters:
+      - name: productId
+        description: the product correspondig to the provide 'producId'
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProductID'
+    put:
+      tags:
+        - product
+      responses:
+        200:
+          description: the product correspondig to the provide 'producId'
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: no product found for the provided 'productId'
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        - product
+      responses:
+        200:
+          description:  the product correspondig to the provide 'producId'
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        404:
+          description: no product found for the provided 'productId'
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Unexpected error
+          content:
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    ProductID:
+      type: string
+      description: The unique identifier of a product
+    Product:
+      type: object
+      required:
+        - name
+        - photo
+        - price
+        - category
+        - desciption
+      properties:
+        id: 
+          $ref: '#/components/schemas/ProductID'
+        name:
+          type: string
+        photo:
+          type: string
+        price:
+          type: number
+        category:
+          enum:
+            - Computers
+            - Phones
+            - Accesories
+        desciption:
+          type: string
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: a human readable error message
+
+      

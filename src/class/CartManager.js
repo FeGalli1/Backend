@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 class CartManager {
   constructor(fileName) {
@@ -19,7 +19,7 @@ class CartManager {
   }
 
   async _createEmptyFile() {
-    fs.writeFile(this._filename, '[]', (error) => {
+    fs.promises.writeFile(this._filename, '[]', (error) => {
       error
         ? console.log(error)
         : console.log(
@@ -81,4 +81,4 @@ class CartManager {
   }
 }
 
-module.exports = CartManager;
+export default CartManager;
