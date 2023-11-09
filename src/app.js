@@ -1,6 +1,24 @@
 import server from "./server.js";
+import config from "./config.js";
 
-server.listen(3000, () => console.log( ' server is running'))
+
+server.listen(config.PORT, () => console.log( ' server is running'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import express from 'express';
 // import { engine } from 'express-handlebars';
