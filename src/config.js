@@ -5,7 +5,7 @@ if(process.env.NODE_ENV !== 'production'){
 }
 
 const config = {
-    PORT:3000,
+    PORT:process.env.PORT,
     MONGODB_URL: process.env.MONGODB_URL,
 }
 
