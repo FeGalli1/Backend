@@ -1,7 +1,7 @@
 'use strict'
 
 import pkg from 'mongoose'
-const {Schema, model} = pkg
+const { Schema, model } = pkg
 
 const productSchema = Schema({
     name: {
@@ -19,16 +19,14 @@ const productSchema = Schema({
     category: {
         type: String,
         required: true,
-        enum: ['computers','phones', 'accesories']
+        enum: ['computers', 'phones', 'accesories'],
     },
     description: {
         type: String,
         required: true,
     },
-    createdAt: { type: Date, default: Date.now},
-    updatedAt: { type: Date, default: Date.now},
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
 })
 
-
-
-export const Product = model('Product',productSchema)
+export const Product = model('Product', productSchema)
