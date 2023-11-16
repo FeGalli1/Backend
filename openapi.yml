@@ -15,7 +15,7 @@ info:
 tags:
   - name: product
     description: todo sobre productos
-  
+
 servers:
   - url: https://{HOST}:{PORT}/{BASE_PATH}
     variables:
@@ -40,7 +40,7 @@ paths:
             aplication/json:
               schema:
                 type: object
-                items: 
+                items:
                   $ref: '#/components/schemas/Product'
 
         404:
@@ -49,7 +49,7 @@ paths:
             aplication/json:
               schema:
                 type: object
-                items: 
+                items:
                   $ref: '#/components/schemas/Error'
         500:
           description: Unexpected error
@@ -57,11 +57,11 @@ paths:
             aplication/json:
               schema:
                 type: object
-                items: 
+                items:
                   $ref: '#/components/schemas/Error'
     post:
       tags:
-          - product
+        - product
       summary: Create a product
       responses:
         201:
@@ -71,7 +71,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Product'
         500:
-          description:  Unexpected error
+          description: Unexpected error
           content:
             aplication/json:
               schema:
@@ -112,7 +112,7 @@ paths:
         - product
       responses:
         200:
-          description:  the product correspondig to the provide 'producId'
+          description: the product correspondig to the provide 'producId'
           content:
             aplication/json:
               schema:
@@ -144,7 +144,7 @@ components:
         - category
         - desciption
       properties:
-        id: 
+        id:
           $ref: '#/components/schemas/ProductID'
         name:
           type: string
@@ -167,5 +167,3 @@ components:
         message:
           type: string
           description: a human readable error message
-
-      

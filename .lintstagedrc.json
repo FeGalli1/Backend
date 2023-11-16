@@ -1,5 +1,4 @@
 {
     "*.js": ["npm run format", "npm run lint"],
     "*.json": ["prettier --write"]
-  }
-  
+}

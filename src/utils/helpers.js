@@ -2,4 +2,4 @@
 
 const removeExtensionFilename = filename => filename.split('.').shift()
 
-export {removeExtensionFilename}
+export { removeExtensionFilename }

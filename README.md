@@ -1,5 +1,3 @@
-
-
 ## :thought_balloon: What is it?
 
 Proyecto de coderhouse. Base de datos no relacionada para un E-commers
@@ -20,7 +18,7 @@ npm start
 
 ## :man_technologist: Author
 
--   [Felipe Galli](https://github.com/FeGalli1) 
+-   [Felipe Galli](https://github.com/FeGalli1)
 
 ## :unlock: License
 
