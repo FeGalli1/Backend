@@ -7,5 +7,5 @@ const router = Router()
 
 router.get('/', getProducts)
 router.post('/', saveProduct)
-router.get('/:id',getProductsId)
+// router.get('/:id',getProductsId)
 export { router }

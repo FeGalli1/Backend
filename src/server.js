@@ -6,9 +6,14 @@ import YAML from 'yamljs';
 import cors from 'cors';
 import { router } from './routes/index.js';
 import { viewsRouter } from './views/views.js';
+import bodyParser from 'body-parser';
 
 const server = express();
 const swaggerDocument = YAML.load('./openapi.yml');
+
+// Agrega body-parser antes de las rutas
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
 
 server.use(json());
 server.use(cors());

@@ -2,6 +2,66 @@
 
 import { Cart } from '../models/CartsModel.js'
 
+export const getCarts = async (req, res) => {
+    try {
+        const carts = await Cart.find().populate('products');
+
+        res.status(200).json({
+            status: 'success',
+            payload: carts,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Ocurrió un error al obtener los carritos.',
+        });
+    }
+};
+
+export const saveCart = async (req, res) => {
+    try {
+      const { product } = req.body;
+      const { quantity } = req.body;
+
+      console.log(req.body)
+
+      // Validación de entrada
+      if (!product) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'El carrito debe contener al menos un producto.',
+        });
+      }
+  
+      // Crear un nuevo carrito
+      const cart = new Cart({
+        products: {
+          product: product,
+          quantity: quantity || 1,
+        },
+      });
+  
+      // Guardar el carrito en la base de datos
+      const cartSave = await cart.save();
+  
+      // Enviar respuesta exitosa
+      res.status(200).json({
+        status: 'success',
+        message: 'Carrito guardado exitosamente.',
+        cart: cartSave,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: 'error',
+        message: 'Ocurrió un error al guardar el carrito.',
+      });
+    }
+  };
+  
+
+
 export const getCart = async (req, res) => {
     try {
         const cart = await Cart.findById(req.params.cid).populate('products')

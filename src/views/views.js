@@ -4,7 +4,6 @@ import { Product } from '../models/ProductModel.js'
 
 export const viewsRouter = async (req, res) => {
     try {
-        console.log('entre')
         const { page = 1, limit = 10 } = req.query
         const skip = (page - 1) * limit
 
@@ -22,6 +21,16 @@ export const viewsRouter = async (req, res) => {
         res.status(500).send('Error al obtener la lista de productos')
     }
 }
+
+export const viewProductId =  async (req, res) => {
+    try {
+        res.render('productsID', { products, prevLink, nextLink })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send('Error al cargar producto')
+    }
+}
+
 
 /*
 mport { fileURLToPath } from 'url';

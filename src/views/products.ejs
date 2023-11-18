@@ -17,17 +17,19 @@
                 <div class="card-body">
                     <h2 class="card-title"><%= product.name %></h2>
                     <p class="card-text">Precio: <%= product.price %></p>
-                    <p class="card-text">Categoría: <%= product.category %></p>
 
                     <!-- Opción 1: Ir a la vista de detalles del producto -->
-                    <a href="/products/<%= product._id %>" class="btn btn-primary">Ver detalles</a>
+                    <a href="/products/<%= product._id %>" style="margin: 1rem;" class="btn btn-primary">Ver detalles</a>
 
-                    <!-- Opción 2: Agregar al carrito directamente -->
-                    <form action="/carts/add" method="post">
-                        <input type="hidden" name="productId" value="<%= product._id %>" />
-                        <button type="submit" class="btn btn-success">Agregar al carrito</button>
-                    </form>
-                </div>
+                  <!-- Opción 2: Agregar al carrito directamente -->
+                <form action="/api/carts" method="post">
+                    <input type="hidden" name="product" value="<%= product._id %>" />
+                    <input type="hidden" name="quantity" value="1" />
+                    <button style="margin: 1rem;" type="submit" class="btn btn-success">Agregar al carrito</button>
+                </form>
+
+
+
             </div>
         <% }); %>
 
