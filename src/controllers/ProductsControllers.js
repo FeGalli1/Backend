@@ -80,3 +80,12 @@ export const saveProduct = async (req, res) => {
         })
     }
 }
+export const getProductById = async (productId) => {
+    try {
+        const product = await Product.findById(productId);
+        return product;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Error al obtener el producto por ID.');
+    }
+};

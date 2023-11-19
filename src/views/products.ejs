@@ -17,23 +17,20 @@
                 <div class="card-body">
                     <h2 class="card-title"><%= product.name %></h2>
                     <p class="card-text">Precio: <%= product.price %></p>
-
-                    <!-- Opción 1: Ir a la vista de detalles del producto -->
                     <a href="/products/<%= product._id %>" style="margin: 1rem;" class="btn btn-primary">Ver detalles</a>
 
-                  <!-- Opción 2: Agregar al carrito directamente -->
-                <form action="/api/carts" method="post">
-                    <input type="hidden" name="product" value="<%= product._id %>" />
-                    <input type="hidden" name="quantity" value="1" />
-                    <button style="margin: 1rem;" type="submit" class="btn btn-success">Agregar al carrito</button>
-                </form>
+                    <form onsubmit="addToCart('<%= product._id %>', document.getElementById('quantity').value); return false;">
+                        <input type="hidden" name="product" value="<%= product._id %>" />
+                        <label for="quantity">Cantidad:</label>
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" />
+                        <button style="margin: 1rem;" type="submit" class="btn btn-success">Agregar al carrito</button>
+                    </form>
 
-
-
+                </div>
             </div>
         <% }); %>
+        
 
-        <!-- Paginación -->
         <div class="mt-4">
             <% if (prevLink) { %>
                 <a href="<%= prevLink %>" class="btn btn-primary">Página anterior</a>
@@ -44,8 +41,52 @@
             <% } %>
         </div>
     </div>
+    <button style="margin: 1rem;" onclick="addAllToCart()" class="btn btn-primary">Agregar todos al carrito</button>
 
-    <!-- Enlaces a Bootstrap JS (opcional) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Carrito local
+        let localCart = [];
+    
+        // Función para agregar al carrito local
+        function addToCart(productId, quantity) {
+            const product = {
+                id: productId,
+                quantity: parseInt(quantity, 10),
+            };
+    
+            localCart.push(product);
+            console.log("Producto agregado al carrito local:", product);
+    
+            // Limpiar el campo de cantidad después de agregar al carrito
+            document.getElementById('quantity').value = 1;
+        }
+    
+        // Función para agregar todos los productos del carrito local
+    // Función para agregar todos los productos del carrito local
+    function addAllToCart() {
+        // Aquí puedes enviar localCart al servidor o manejarlo como desees
+        console.log("Agregando todos los productos al carrito:", localCart);
+
+        // Realizar la solicitud POST al servidor
+        fetch('/api/carts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ products: localCart }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Respuesta del servidor:", data);
+            // Limpiar el carrito local después de agregar todos los productos
+            localCart = [];
+        })
+        .catch(error => {
+            console.error("Error al realizar la solicitud POST:", error);
+        });
+    }
+    </script>
+    
 </body>
 </html>
