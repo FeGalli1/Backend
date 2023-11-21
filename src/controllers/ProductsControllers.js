@@ -80,6 +80,8 @@ export const saveProduct = async (req, res) => {
         })
     }
 }
+
+//devuelve el producto que recibe por id de parametro 
 export const getProductById = async (productId) => {
     try {
         const product = await Product.findById(productId);
