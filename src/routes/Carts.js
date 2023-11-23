@@ -10,15 +10,17 @@ import {
     deleteCart,
     getCarts
 } from '../controllers/CartsControllers.js' 
+import { requireAdmin } from '../middleware/adminMiddleware.js';
+import { requireAuth } from '../middleware/authMiddleware.js';
 
 const router = Router()
 
-router.post('/', saveCart);
-router.get('/', getCarts);
-router.get('/:cid', getCart)
-router.delete('/:cid/products/:pid', deleteProductFromCart)
-router.put('/:cid', updateCart)
-router.put('/:cid/products/:pid', updateProductInCart)
-router.delete('/:cid', deleteCart)
+router.post('/',requireAuth, saveCart);
+router.get('/',requireAdmin, getCarts);
+router.get('/:cid',requireAdmin, getCart)
+router.delete('/:cid/products/:pid',requireAuth, deleteProductFromCart)
+router.put('/:cid',requireAuth, updateCart)
+router.put('/:cid/products/:pid',requireAuth, updateProductInCart)
+router.delete('/:cid',requireAuth, deleteCart)
 
 export { router }

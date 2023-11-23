@@ -1,10 +1,10 @@
-// views/views.js
-
 import { getProductById } from '../controllers/ProductsControllers.js'
 import { Product } from '../models/ProductModel.js'
+import { getUserById } from '../controllers/UserControllers.js';
 
 export const viewsRouter = async (req, res) => {
     try {
+        const user = await getUserById (req.session.userId);
         const { page = 1, limit = 10 } = req.query
         const skip = (page - 1) * limit
 
@@ -16,7 +16,7 @@ export const viewsRouter = async (req, res) => {
         const prevLink = page > 1 ? `/products?page=${page - 1}&limit=${limit}` : null
         const nextLink = page < totalPages ? `/products?page=${page + 1}&limit=${limit}` : null
 
-        res.render('products', { products, prevLink, nextLink })
+        res.render('products', { products, prevLink, nextLink,user })
     } catch (error) {
         console.error(error)
         res.status(500).send('Error al obtener la lista de productos')
