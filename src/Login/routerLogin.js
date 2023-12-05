@@ -1,25 +1,33 @@
-// Importa las funciones necesarias para el manejo de usuarios y sesiones
 import { Router } from 'express';
+import passport from 'passport';
+import GitHubStrategy from 'passport-github2';
 import { registerUser, loginUser, logoutUser } from '../controllers/UserControllers.js';
 
-
-const routerLog = Router()
-// Rutas
-routerLog.get('/register', (req, res) => {
-    // Renderiza la vista de registro
-    res.render('register');
-});
-
-routerLog.post('/register', registerUser);
+const routerLog = Router();
 
 routerLog.get('/login', (req, res) => {
     // Renderiza la vista de login
     res.render('login');
 });
 
+// Ruta para iniciar sesión con GitHub
+routerLog.get('/auth/github', passport.authenticate('github'));
+
+// Callback de autenticación de GitHub
+routerLog.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login' }),
+    (req, res) => {
+        res.redirect('/products');
+    }
+);
+
+// Resto de las rutas
 routerLog.post('/login', loginUser);
-
 routerLog.get('/logout', logoutUser);
+routerLog.get('/register', (req, res) => {
+    // Renderiza la vista de registro
+    res.render('register');
+});
+routerLog.post('/register', registerUser);
 
-
-export default routerLog
+export default routerLog;

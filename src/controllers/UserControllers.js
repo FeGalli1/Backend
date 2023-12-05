@@ -1,4 +1,5 @@
 import { User } from '../models/UserModel.js';
+import bcrypt from 'bcrypt';
 
 export const getUserById = async (userId) => {
     try {
@@ -27,7 +28,16 @@ export const registerUser = async (req, res) => {
         }
 
         // Crea un nuevo usuario
-        const newUser = new User({ email, password, role: 'usuario' });
+        const newUser = new User({ email, role: 'usuario' });
+
+        // Genera el hash de la contraseña
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Almacena la contraseña con hash en el usuario
+        newUser.password = hashedPassword;
+
+        // Guarda el usuario en la base de datos
         await newUser.save();
 
         // Crea una sesión y almacena el ID del usuario
@@ -45,7 +55,7 @@ export const registerUser = async (req, res) => {
 };
 export const loginUser = async (req, res) => {
     try {
-        // Obtén los datos del formulario de inicio de sesión
+        // Obtén los datos del formulario de inicio de sesión 
         const { email, password } = req.body;
 
 

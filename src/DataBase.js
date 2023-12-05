@@ -13,6 +13,7 @@ const mongooseOptions = {
 }
 
 connect(config.MONGODB_ATLAS_CONNECTION_STRING, mongooseOptions) // Reemplazar MONGODB_ATLAS_CONNECTION_STRING con tu cadena de conexión de MongoDB Atlas
+// connect(config.MONGODB_URL, mongooseOptions) // Reemplazar MONGODB con tu cadena de conexión de MongoDB offline
     .then(() => console.log('Connection has been successful!'))
     .catch(err => {
         console.log(`ERROR: in initial connection ${err}`)

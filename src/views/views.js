@@ -24,7 +24,7 @@ export const viewsRouter = async (req, res) => {
 }
 export const renderProductDetails = async (req, res) => {
     try {
-        const productId = req.params.productId;
+        const productId = req.params.productId; 
         const product = await getProductById(productId);
 
         if (!product) {
