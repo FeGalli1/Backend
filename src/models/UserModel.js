@@ -1,3 +1,4 @@
+'use strict';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -31,4 +32,25 @@ userSchema.pre('save', async function (next) {
     }
 });
 
+userSchema.methods.create1 = async function (email,password) {
+    console.log("entre a create1")
+        // Crea un nuevo usuario
+        const newUser = new User({ email, role: 'usuario' });
+
+        // Genera el hash de la contraseña
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Almacena la contraseña con hash en el usuario
+        newUser.password = hashedPassword;
+
+        // Guarda el usuario en la base de datos
+        await newUser.save();
+
+        // Crea una sesión y almacena el ID del usuario
+        req.session.userId = newUser._id;
+
+        // Redirecciona a la vista de productos después del registro
+        res.redirect('/products');
+    }
 export const User = mongoose.model('User', userSchema);

@@ -17,7 +17,9 @@ import { User } from './models/UserModel.js';
 import routerLog from './Login/routerLogin.js';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
- 
+import bcrypt from 'bcrypt'
+
+
 const server = express();
 const swaggerDocument = YAML.load('./openapi.yml');
 
@@ -58,33 +60,33 @@ passport.use(new LocalStrategy(
         }
     }
 ));
-
-// Configuración de la estrategia de GitHub
 passport.use(new GitHubStrategy({
     clientID: 'Iv1.8e26441660c9e03f',
     clientSecret: 'f0c130709520615ea8b6ddd9ec959a31273f8439',
-    callbackURL: 'http://localhost:3000/auth/github/callback',
-  },
-  async ( accesToken , refreshToekn, profile ,done) =>{
-      try{
-          let user = await userModel.findOne({ email : profile._json.email})
-      if(!user){
-          let newUser ={
-              first_name: profile._json.name,
-              last_name: '',
-              email: profile._json.email,
-              age: '123',
-              password:''
-          }
-          let result = await userModel.create(newUser);
-          done(null,result)
-      }
+    callbackURL: 'http://localhost:3001/login/githubcallback',
+},
+async (accessToken, refreshToken, profile, done) => {
+    try {
+        // Buscar el usuario por el correo electrónico proporcionado por GitHub
+        let user = await User.findOne({ email: profile._json.email });
 
-      }catch(error){
-          done(error)
-      }
-  }
-  ))
+        // Si el usuario no existe, crear uno nuevo
+        if (!user) {
+            const newUser = {
+                email: profile._json.email,
+                password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10)),
+            };
+            user = await User.create(newUser);
+        }
+
+        // Llamar a done con el usuario encontrado o recién creado
+        done(null, user);
+    } catch (error) {
+        console.error('Error en la estrategia GitHub:', error);
+        done(error);
+    }
+}));
+
 
   passport.use('register', new LocalStrategy( {passReqToCallback :true , usernameField :'email'},
   async(req,username,password,done)=>{

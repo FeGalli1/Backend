@@ -30,4 +30,12 @@ routerLog.get('/register', (req, res) => {
 });
 routerLog.post('/register', registerUser);
 
+routerLog.get('/login/github', passport.authenticate('github',{scope:['user: email']}),
+async(req,res)=>{
+})
+
+routerLog.get('/login/githubcallback' ,passport.authenticate('github', {failureRedirect:'/login' }), async(req,res)=>{
+    req.session.user= req.user
+    res.redirect('/products') 
+})
 export default routerLog;
