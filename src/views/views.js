@@ -5,6 +5,7 @@ import { getUserById } from '../controllers/UserControllers.js';
 export const viewsRouter = async (req, res) => {
     try {
         const user = await getUserById (req.session.userId);
+        console.log("ususario desde view.js ",user)
         const { page = 1, limit = 10 } = req.query
         const skip = (page - 1) * limit
 

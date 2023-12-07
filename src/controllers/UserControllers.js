@@ -104,3 +104,33 @@ export const logoutUser = async (req, res) => {
         });
     }
 };
+export const loginUserGitHub = async (req, res,email) => {
+    try {
+        const user = await User.findOne({ email });
+        // Verifica si el usuario existe y la contraseña es válida
+        if (user) {
+            // Almacena el ID del usuario en la sesión
+            req.session.userId = user._id;
+
+            // Si el usuario no es admin, asigna el rol 'usuario'
+            if (user.role !== 'admin') {
+                user.role = 'usuario';
+                await user.save();
+            }
+
+            // Redirecciona a la vista de productos después del login
+            res.redirect('/products');
+        } else {
+            res.status(401).json({
+                status: 'error',
+                message: 'Correo electrónico o contraseña incorrectos.',
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: 'error',
+            message: 'Error al iniciar sesión.',
+        });
+    }
+};
