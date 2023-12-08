@@ -1,8 +1,7 @@
-import { getUserById } from '../controllers/UserControllers.js';
 
 export const requireAdmin = async (req, res, next) => {
     try {
-        const user = await getUserById(req.session.userId);
+        const user = req.session.user._id;
         if (user && user.role === 'admin') {
             return next();
         } else {

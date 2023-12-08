@@ -16,11 +16,7 @@ import path, { dirname } from 'path';
 import MongoStore from 'connect-mongo';
 
 import passport from 'passport';
-// import LocalStrategy from 'passport-local';
-// import GitHubStrategy from 'passport-github2'; // Asegúrate de tener instalado el paquete passport-github2
-// import { User } from './models/UserModel.js';
 
-import bcrypt from 'bcrypt'
 import initializedPassport from './PassportConfig/Passport.js';
 
 

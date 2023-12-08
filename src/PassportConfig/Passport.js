@@ -14,33 +14,34 @@ const LocalStrategy = local.Strategy;
 const initializedPassport = () =>{
    
       
-    passport.use('github', new GitHubStrategy({
-        clientID: 'Iv1.8e26441660c9e03f',
-        clientSecret: 'f0c130709520615ea8b6ddd9ec959a31273f8439',
-        callbackURL: 'http://localhost:3001/login/githubcallback',
-      }, async ( accesToken , refreshToekn,profile, done) => {
-        try {
-          // Verificar la identidad del usuario
-          let user = await User.findOne({ email: profile._json.email });
-      
-          // Buscar o crear un usuario en la base de datos
-          if (!user) {
-            const newUser = {
-              email: profile._json.email,
-              password: createHash(profile._json.email), // Genera un hash seguro de la email
-            };
-            let result = await User.create(newUser);
-            done(null,result)
-          }
-      
-        } catch (error) {
-            done(error);
-        }
-      }));
+  passport.use('github', new GitHubStrategy({
+    clientID: 'Iv1.8e26441660c9e03f',
+    clientSecret: 'f0c130709520615ea8b6ddd9ec959a31273f8439',
+    callbackURL: 'http://localhost:3001/login/githubcallback',
+ }, async ( accesToken , refreshToekn,profile, done) => {
+    try {
+      // Verificar la identidad del usuario
+      let user = await User.findOne({ email: profile._json.email });
+  
+      // Buscar o crear un usuario en la base de datos
+      if (!user) {
+        const newUser = {
+          email: profile._json.email,
+          password: createHash(profile._json.email), // Genera un hash seguro de la email
+        };
+        let result = await User.create(newUser);
+        done(null,result)
+      } else {
+        done(null, false, { message: 'El usuario ya existe.' });
+      }
+    } catch (error) {
+        done(error);
+    }
+ }));
       
  
     passport.use('register', new LocalStrategy({ passReqToCallback: true, usernameField: 'email' },
-    async (req, username, password, done) => {
+    async (req, password, done) => {
       const { email } = req.body;
   
       try {
