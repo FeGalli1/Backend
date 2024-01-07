@@ -13,7 +13,6 @@ export const viewsRouter = async (req, res) => {
         const prevLink = page > 1 ? `/products?page=${page - 1}&limit=${limit}` : null
         const nextLink = page < totalPages ? `/products?page=${page + 1}&limit=${limit}` : null
 
-        console.log("ahora es ",req.session.user)
         res.render('products', { products, prevLink, nextLink,  user: req.session.user });
     } catch (error) {
         console.error(error)

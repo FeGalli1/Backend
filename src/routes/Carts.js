@@ -19,7 +19,7 @@ router.post('/',requireAuth, saveCart);
 router.get('/',requireAdmin, getCarts);
 router.get('/:cid',requireAdmin, getCart)
 router.delete('/:cid/products/:pid',requireAuth, deleteProductFromCart)
-router.put('/:cid',requireAuth, updateCart)
+router.put('/:cid', updateCart)
 router.put('/:cid/products/:pid',requireAuth, updateProductInCart)
 router.delete('/:cid',requireAuth, deleteCart)
 

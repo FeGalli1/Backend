@@ -27,12 +27,13 @@ export const saveCart = async (req, res) => {
       console.log(req.body)
 
       // Validación de entrada
-      if (!product) {
+    if (!product || !quantity || typeof quantity !== 'number' || quantity < 1) {
         return res.status(400).json({
-          status: 'error',
-          message: 'El carrito debe contener al menos un producto.',
+            status: 'error',
+            message: 'Los datos del carrito son inválidos.',
         });
-      }
+    }
+  
   
       // Crear un nuevo carrito
       const cart = new Cart({

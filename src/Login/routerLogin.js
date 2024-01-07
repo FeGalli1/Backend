@@ -1,13 +1,14 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { User } from '../models/UserModel.js';
-import { isValidPassword } from '../utils/helpers.js';
+import { createHash, isValidPassword } from '../utils/helpers.js';
+import User from '../models/UserModel.js';
+import { Cart } from '../models/CartsModel.js';
 
 const routerLog = Router();
 
 routerLog.get('/login', (req, res) => {
     // Renderiza la vista de login
-    res.render('login');
+    res.render('login'); 
 });
 routerLog.get('/register', (req, res) => {
     // Renderiza la vista de registro
@@ -16,33 +17,50 @@ routerLog.get('/register', (req, res) => {
 
 
 
-//  implmentacion del hash en user y contrasena 
-routerLog.post('/register',async(req,res)=>{
-    const {  email, password} = req.body;
-    const exists = await User.findOne({email});
-    if(exists) return res.status(400).send({status:"error",error:"User already exists"});
-    const user = {
-        email,
-        password: createHash(password)
+// Implementación del hash en usuario y contraseña 
+routerLog.post('/register', async (req, res) => {
+    const { email, password, first_name,last_name} = req.body;
+
+    try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).send({ status: "error", error: "User already exists" });
+        }
+
+        const newUser = new User({ email, password: createHash(password) , first_name , last_name});
+        const savedUser = await newUser.save();
+
+        // Crea un nuevo carrito para el usuario
+        const cart = await Cart.create({ owner: savedUser._id });
+
+        // Actualiza el campo cart del usuario con la ID del carrito recién creado
+        savedUser.cart = cart._id;
+        await savedUser.save();
+
+        //res.send({ status: "success", message: "User registered" });
+        res.redirect('/login');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ status: "error", error: "Internal Server Error" });
     }
-    let result = await User.create(user);
-    res.send({status:"success",message:"User registered"});
-})
+});
 
-routerLog.post('/login',async(req,res)=>{
-    const {email, password} = req.body;
-    console.log(password)
-    
-    const user = await User.findOne({email}); //Ya que el password no está hasheado, podemos buscarlo directamente
-    console.log(user + ' Pase por aqui')
-   
-    if(!user) return res.status(400).send({status:"error",error:"Incorrect credentials"});
+routerLog.post('/login', passport.authenticate('local', {
+    failureRedirect: '/faillogin',
+    failureFlash: true
+}), async (req, res) => {
+    // La autenticación fue exitosa
+    // El usuario está disponible en req.user
 
-    if(!isValidPassword(user,password)) if(!user) return res.status(403).send({status:"error",error:"Incorrect password"});
-    req.session.user= user
-    res.redirect('/products')
-})
+    // Obtiene el carrito asociado al usuario
+    const cart = await Cart.findById(req.user.cart);
 
+    // Guarda el carrito obtenido en la sesión del usuario
+    req.session.userCart = cart;
+    req.session.user = req.user;
+
+    res.redirect('/products');
+});
 routerLog.post('/restartPassword',async(req,res)=>{
     const {email,password} = req.body;
     if(!email||!password) return res.status(400).send({status:"error",error:"Incomplete Values"});

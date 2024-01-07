@@ -1,22 +1,16 @@
-'use strict';
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import { Cart } from './CartsModel.js';
 
 const userSchema = new mongoose.Schema({
-    email: { type: String, required: true },
+    first_name: String,
+    last_name: String,
+    email: { type: String, unique: true },
+    age: Number,
     password: String,
-    role: { type: String, enum: ['usuario', 'admin'], default: 'usuario' },
+    cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },
+    role: { type: String, default: 'user' },
 });
 
-// Método para comparar contraseñas
-userSchema.methods.comparePassword = async function (candidatePassword) {
-    try {
-        return await bcrypt.compare(candidatePassword, this.password);
-    } catch (error) {
-        console.error(error);
-        return false;
-    }
-};
+const User = mongoose.model('User', userSchema);
 
-
-export const User = mongoose.model('User', userSchema);
+export default User;

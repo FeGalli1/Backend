@@ -28,17 +28,16 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
 // Configuración de la sesión
+const sessionOptions = {
+    secret: config.COOKIEKEY,
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({mongoUrl: config.MONGODB_ATLAS_CONNECTION_STRING, ttl:3600}),
+    cookie: { maxAge: 3600000 }, // 1 hour
+};
+server.use(session(sessionOptions));
 
-server.use(session({
-    store:new MongoStore({
-        mongoUrl: config.MONGODB_ATLAS_CONNECTION_STRING,
-        ttl:3600
-    }),
-    secret:config.COOKIEKEY,
-    resave:false,
-    saveUninitialized:false
-}))
-initializedPassport()
+
 server.use(passport.initialize())
 server.use(passport.session())
 
