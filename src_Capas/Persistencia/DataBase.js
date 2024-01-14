@@ -1,7 +1,7 @@
 'use strict';
 
 import mongoose from 'mongoose';
-import config from './config.js';
+import config from '../config.js';
 
 const { connect, connection } = mongoose;
 
@@ -54,4 +54,4 @@ if (process.env.NODE_ENV !== 'production') {
 
 // if (process.env.NODE_ENV !== 'production') {
 //     connection.on('error', err => console.log(err))
-// }
+// } 

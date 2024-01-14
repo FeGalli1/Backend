@@ -1,4 +1,7 @@
 import mongoose from 'mongoose';
+// Limpiar la caché de Mongoose
+mongoose.models = {};
+mongoose.modelSchemas = {};
 
 const { Schema, model } = mongoose;
 

@@ -2,7 +2,7 @@ import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github';
 import  User  from '../models/UserModel.js';
-import { createHash, isValidPassword } from '../utils/helpers.js';
+import {  isValidPassword } from '../utils/helpers.js';
 
 const localStrategy = new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
