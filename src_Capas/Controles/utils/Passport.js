@@ -4,6 +4,7 @@ import { Strategy as GitHubStrategy } from 'passport-github';
 import  User  from '../../persistencia/models/UserModel.js';
 import {  isValidPassword } from '../utils/helpers.js';
 import { Cart } from '../../persistencia/models/CartsModel.js';
+import config from '../../config.js';
 
 const localStrategy = new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
@@ -28,9 +29,9 @@ const localStrategy = new LocalStrategy(
 
 const githubStrategy = new GitHubStrategy(
     {
-      clientID: 'Iv1.8e26441660c9e03f',
-      clientSecret: 'f0c130709520615ea8b6ddd9ec959a31273f8439',
-      callbackURL: 'http://localhost:3001/login/githubcallback',
+      clientID: config.ID_CLIENT,
+      clientSecret: config.CLIENT_SECRET,
+      callbackURL: config.CALLBACKURL,
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
