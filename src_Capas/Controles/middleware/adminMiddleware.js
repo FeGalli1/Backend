@@ -1,7 +1,7 @@
 
 export const requireAdmin = async (req, res, next) => {
     try {
-        const user = req.session.user._id;
+        const user = req.session.user;
         if (user && user.role === 'admin') {
             return next();
         } else {

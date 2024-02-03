@@ -1,53 +1,27 @@
+// ProductDAO.js
 import { Product } from '../models/ProductModel.js';
 
-export const getAllProducts = async (req, res) => {
-  const { limit = 10, page = 1, sort, query } = req.query;
+const createError = (status, message) => ({ status, message });
 
+export const getAllProducts = async (limit, page, sort, query) => {
   const queryFilter = query ? { category: query.trim() } : {};
+  const products = await Product.find(queryFilter)
+    .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {})
+    .skip((page - 1) * limit)
+    .limit(limit);
 
-  try {
-    const products = await Product.find(queryFilter)
-      .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {})
-      .skip((page - 1) * limit)
-      .limit(limit);
+  const totalProducts = await Product.countDocuments(queryFilter);
+  const totalPages = Math.ceil(totalProducts / limit);
 
-    const totalProducts = await Product.countDocuments(queryFilter);
-    const totalPages = Math.ceil(totalProducts / limit);
-
-    const response = {
-      status: 'success',
-      payload: products,
-      totalPages,
-      prevPage: page > 1 ? page - 1 : null,
-      nextPage: page < totalPages ? page + 1 : null,
-      page,
-      hasPrevPage: page > 1,
-      hasNextPage: page < totalPages,
-      prevLink: page > 1 ? `/api/products?page=${page - 1}&limit=${limit}&query=${query}` : null,
-      nextLink: page < totalPages ? `/api/products?page=${page + 1}&limit=${limit}&query=${query}` : null,
-    };
-
-    res.status(200).json(response);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al procesar la petición.',
-    });
-  }
+  return products;
 };
 
-export const createProduct = async (req, res) => {
-  const { name, photo, price, category, description } = req.body;
-
-  if (!name || !photo || !price || !category || !description) {
-    return res.status(400).json({
-      status: 'error',
-      message: 'Todos los campos son obligatorios.',
-    });
-  }
-
+export const createProduct = async (name, photo, price, category, description) => {
   try {
+    if (!name || !photo || !price || !category || !description) {
+      throw createError(400, 'Todos los campos son obligatorios.');
+    }
+
     const product = new Product({
       name,
       photo,
@@ -56,28 +30,56 @@ export const createProduct = async (req, res) => {
       description,
     });
 
-    const productSave = await product.save();
-
-    res.status(200).json({
-      status: 'success',
-      message: 'Producto guardado exitosamente.',
-      product: productSave,
-    });
+    return await product.save();
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al guardar el producto.',
-    });
+    throw createError(500, 'Error al crear el producto en la base de datos.');
   }
 };
 
 export const getProductById = async (productId) => {
   try {
+    console.log(productId)
     const product = await Product.findById(productId);
+    if (!product) {
+      throw createError(404, 'Producto no encontrado.');
+    }
+
     return product;
   } catch (error) {
-    console.error(error);
-    throw new Error('Error al obtener el producto por ID.');
+    throw createError(500, 'Error al obtener el producto desde la base de datos.');
+  }
+};
+
+export const deleteProductById = async (productId) => {
+  try {
+    const result = await Product.deleteOne({ _id: productId });
+    if (result.deletedCount === 0) {
+      throw createError(404, 'Producto no encontrado para eliminar.');
+    }
+  } catch (error) {
+    
+    t
+throw createError(500, 'Error al eliminar el producto desde la base de datos.');
+  }
+};
+
+export const updateProductById = async (productId, updatedProductData) => {
+  try {
+      // Verifica si el producto existe
+      const existingProduct = await Product.findById(productId);
+      if (!existingProduct) {
+          throw createError(404, 'Producto no encontrado.');
+      }
+
+      // Actualiza los campos del producto con los datos proporcionados
+      existingProduct.set(updatedProductData);
+
+      // Guarda los cambios en la base de datos
+      const updatedProduct = await existingProduct.save();
+
+      return updatedProduct;
+  } catch (error) {
+      // Puedes personalizar la forma en que manejas el error según tus necesidades
+      throw createError(500, 'Error al actualizar el producto en la base de datos.');
   }
 };

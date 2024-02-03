@@ -4,7 +4,6 @@ mongoose.models = {};
 mongoose.modelSchemas = {};
 
 const { Schema, model } = mongoose;
-
 const cartSchema = Schema({
   owner: {
     type: Schema.Types.ObjectId,
@@ -14,7 +13,7 @@ const cartSchema = Schema({
   products: [
     {
       product: {
-        type: Schema.Types.ObjectId,
+        type: String, 
         ref: 'Product',
       },
       quantity: {
@@ -26,5 +25,6 @@ const cartSchema = Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
+
 
 export const Cart = model('Cart', cartSchema);

@@ -1,3 +1,5 @@
+import { getProductByIdController, getProducts } from '../../Controles/controllers/ProductsControllers.js';
+import ProductRepository from '../../Persistencia/DAO/ProductRepository.js';
 import { Product } from '../../Persistencia/models/ProductModel.js'
 
 export const viewsRouter = async (req, res) => {
@@ -5,8 +7,8 @@ export const viewsRouter = async (req, res) => {
         const { page = 1, limit = 10 } = req.query
         const skip = (page - 1) * limit
 
-        const products = await Product.find().skip(skip).limit(limit)
-
+        // const products = await Product.find().skip(skip).limit(limit)
+        const products = await getProducts(req, res);
         const totalProducts = await Product.countDocuments()
         const totalPages = Math.ceil(totalProducts / limit)
 
@@ -21,8 +23,7 @@ export const viewsRouter = async (req, res) => {
 }
 export const renderProductDetails = async (req, res) => {
     try {
-        const productId = req.params.productId; 
-        const product = await getProductById(productId);
+        const product = await getProductByIdController(req, res);
 
         if (!product) {
             return res.status(404).json({

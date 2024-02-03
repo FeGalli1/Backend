@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat admin</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+  
+</head>
+<body>
+
+  <div class="container">
+    <h1>Chats</h1>
+    <div class="row">
+      <div class="col-md-4" id="chat-list-container">
+        <ul class="list-group" id="chat-list"></ul>
+      </div>
+      <div class="col-md-8" id="selected-chat-container">
+        <div id="selected-chat">
+          <h2></h2>
+          <div id="messageList" style="white-space: pre-line;"></div>
+          <form id="chatForm" action="" class="form-inline">
+            <input type="text" id="messageInput" class="form-control" placeholder="Escribe tu mensaje">
+            <button type="button" class="btn btn-primary" id="enviarBtn">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const socket = io();
+      let Chats = {};
+
+      // Manejar clic en la lista de chats
+      document.getElementById('chat-list').addEventListener('click', (event) => {
+        if (event.target.tagName === 'H4') {
+          const selectedSocketId = event.target.textContent;
+
+          // Actualizar el título del chat seleccionado
+          document.getElementById('selected-chat').querySelector('h2').textContent = `Chat with ${selectedSocketId}`;
+
+          // Mostrar los mensajes en formato de chat
+          document.getElementById('messageList').innerHTML = Chats[selectedSocketId] || ''; // Muestra el historial de mensajes
+        }
+      });
+
+      const form = document.getElementById('chatForm');
+      const enviarBtn = document.getElementById('enviarBtn');
+
+      enviarBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const selectedSocketId = document.querySelector('#selected-chat h2').textContent.replace('Chat with ', '');
+        const mensaje = document.getElementById('messageInput').value;
+        console.log("pase por el enviar ", mensaje);
+        console.log("envie ", mensaje)
+        // Enviar el mensaje al servidor con la información del destinatario
+        socket.emit('mensajePrivado', { destinatario: selectedSocketId, mensaje: mensaje });
+        document.getElementById('messageInput').value = '';
+        // Devolver false para evitar la recarga de la página
+        return false;
+      });
+
+      socket.on('new message', (anonymousChats) => {
+        console.log("me llego algo nuevo ", anonymousChats)
+        // Actualizar la lista de chats en la vista
+        const chatList = document.getElementById('chat-list');
+        chatList.innerHTML = ''; // Limpiar la lista antes de cargar los nuevos chats
+
+        anonymousChats.forEach((chat) => {
+          const listItem = document.createElement('li');
+          listItem.classList.add('list-group-item');
+
+          const heading = document.createElement('h4');
+          heading.classList.add('list-group-item-heading');
+          heading.textContent = chat.socketId;
+
+          const chatsMSG = document.createElement('div');
+          // Mostrar el historial de mensajes en formato de chat
+          chatsMSG.innerHTML = chat.messageHistory.map(message => `${message.message}`).join(' ');
+          Chats[chat.socketId] = chat.messageHistory.map(message => `<p>${message.message}</p>`).join(' ');
+          listItem.appendChild(heading);
+          listItem.appendChild(chatsMSG);
+          chatList.appendChild(listItem);
+        });
+
+        // Si hay un chat seleccionado, actualiza el contenido del messageList
+        const selectedChat = document.querySelector('#selected-chat h2');
+        if (selectedChat) {
+          const selectedSocketId = selectedChat.textContent.replace('Chat with ', '');
+          document.getElementById('messageList').innerHTML = Chats[selectedSocketId] || '';
+        }
+      });
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+</body>
+</html>
