@@ -10,7 +10,7 @@ const fakerEN = new Faker({ locale: [en] });
     price: parseFloat(faker.commerce.price()),
     category: faker.commerce.department(),
     description: fakerEN.commerce.productDescription(),
-    stock: fakerEN.datatype.number({ min: 1, max: 100 }),
+    stock: fakerEN.number.int({ min: 1, max: 100 }),
   };
 };
 
@@ -25,21 +25,27 @@ const generateMockProducts = (quantity) => {
 
 export const mockingProductsEndpoint = (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const skip = (page - 1) * limit;
-    const quantity =100;
-    const mockProducts = generateMockProducts(quantity);  // Ajusta si generateMockProducts recibe algún parámetro
+    const { page = 1 } = req.query;
+    const limit= 10;
+    const quantity = 100;
+    const mockProducts = generateMockProducts(quantity);
 
-    // Puedes seguir con el resto de tu lógica para paginación y renderizado de la vista
+    const skip = (page - 1) * limit;
+    const paginatedProducts = mockProducts.slice(skip, skip + limit);
+
     const totalProducts = mockProducts.length;
     const totalPages = Math.ceil(totalProducts / limit);
 
-    const prevLink = page > 1 ? `/mockingproducts?page=${page - 1}&limit=${limit}` : null;
-    const nextLink = page < totalPages ? `/mockingproducts?page=${page + 1}&limit=${limit}` : null;
+    const prevLink = page > 1 ? `/mockingproducts?page=${parseInt(page) - 1}` : null;
+    const nextLink = page < totalPages ? `/mockingproducts?page=${parseInt(page) + 1}` : null;
 
-    res.render('products', { products: mockProducts, prevLink, nextLink, user: req.session.user });
-} catch (error) {
+    // Elimina la línea `console.log(paginatedProducts)`
+
+    res.render('productMock', { paginatedProducts, prevLink, nextLink, user: req.session.user });
+  } catch (error) {
     console.error(error);
     res.status(500).send('Error al obtener la lista de productos simulados');
-}
+  }
 };
+
+
