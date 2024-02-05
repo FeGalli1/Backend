@@ -56,6 +56,8 @@ server.set('views', path.join(__dirname, '../Visualizacion/views'));
 server.get('/products',notAdmin ,viewsRouter); 
 server.get('/products/:productId',notAdmin ,renderProductDetails);
 
+//mocking
+server.get('/mockingproducts',notAdmin ,mockingProductsEndpoint); 
 
 // RUTA DE ADMINISTRADOR
 
@@ -77,6 +79,7 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import { setTimeout } from 'timers';
 import { isUser, notAdmin } from '../Controles/middleware/authMiddleware.js';
+import { mockingProductsEndpoint } from '../Persistencia/Mock/mockingModule.js';
 
 const serverChat = createServer(server);
 const io = new Server(serverChat);

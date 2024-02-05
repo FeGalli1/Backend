@@ -1,7 +1,8 @@
 import passport from 'passport';
 import { createHash } from '../utils/helpers.js';
-import User from '../../persistencia/models/UserModel.js';
+import User from '../../Persistencia/models/UserModel.js';
 import { Cart } from '../../persistencia/models/CartsModel.js';
+import { createError, errors } from '../../Errores/errorModule.js';
 
 export const renderLogin = (req, res) => {
     res.render('login');
@@ -17,15 +18,17 @@ export const registerUser = async (req, res) => {
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).send({ status: "error", error: "User already exists" });
+            const errorDetails = createError(errors.USER_ALREADY_EXISTS);
+            return res.status(errorDetails.status).send({ status: 'error', error: errorDetails.message });
         }
+
         let newUser;
-        if(role!== undefined)
-        {
+        if (role !== undefined) {
             newUser = new User({ email, password: createHash(password), first_name, last_name, role });
-        }else{
-            newUser = new User({ email, password: createHash(password), first_name, last_name});
+        } else {
+            newUser = new User({ email, password: createHash(password), first_name, last_name });
         }
+
         // Solo asigna un carrito si el usuario no es administrador
         if (role !== 'admin') {
             const cart = await Cart.create({ owner: newUser._id });
@@ -37,15 +40,16 @@ export const registerUser = async (req, res) => {
         res.redirect('/login');
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Internal Server Error" });
+        const errorDetails = createError(errors.INTERNAL_SERVER_ERROR);
+        res.status(errorDetails.status).send({ status: 'error', error: errorDetails.message });
     }
 };
-
 
 export const loginUser = passport.authenticate('local', {
     failureRedirect: '/faillogin',
     failureFlash: true
 });
+
 export const handleSuccessfulLogin = async (req, res) => {
     try {
         // Obtiene el carrito asociado al usuario
@@ -58,23 +62,32 @@ export const handleSuccessfulLogin = async (req, res) => {
         res.redirect('/products');
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error al procesar la autenticación exitosa');
+        const errorDetails = createError(errors.INTERNAL_SERVER_ERROR);
+        res.status(errorDetails.status).send({ status: 'error', error: errorDetails.message });
     }
 };
+
 export const restartPassword = async (req, res) => {
     const { email, password } = req.body;
-    if (!email || !password) return res.status(400).send({ status: "error", error: "Incomplete Values" });
+    if (!email || !password) {
+        const errorDetails = createError(errors.INCOMPLETE_VALUES);
+        return res.status(errorDetails.status).send({ status: 'error', error: errorDetails.message });
+    }
 
     try {
         const user = await User.findOne({ email });
-        if (!user) return res.status(404).send({ status: "error", error: "Not user found" });
+        if (!user) {
+            const errorDetails = createError(errors.USER_NOT_FOUND);
+            return res.status(errorDetails.status).send({ status: 'error', error: errorDetails.message });
+        }
 
         const newHashedPassword = createHash(password);
         await User.updateOne({ _id: user._id }, { $set: { password: newHashedPassword } });
 
-        res.send({ status: "success", message: "Contraseña restaurada" });
+        res.send({ status: 'success', message: 'Contraseña restaurada' });
     } catch (error) {
         console.error(error);
-        res.status(500).send({ status: "error", error: "Internal Server Error" });
+        const errorDetails = createError(errors.INTERNAL_SERVER_ERROR);
+        res.status(errorDetails.status).send({ status: 'error', error: errorDetails.message });
     }
 };

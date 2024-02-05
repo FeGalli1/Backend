@@ -165,22 +165,23 @@ export const purchase = async (cartId) => {
       // Verificar disponibilidad de stock
       if (product.stock >= desiredQuantity) {
         // Restar del stock y agregar al array de productos comprados
-        product.stock -= desiredQuantity;
+        product.stock -= parseInt(desiredQuantity);
         productsToPurchase.push({ product, quantity: desiredQuantity });
-        console.log("Tiene stock")
+        await product.save();
       } else {
-        console.log("No Tiene stock")
-
         // Agregar al array de productos no comprados
         productsNotPurchased.push({ productId: product._id, quantity: desiredQuantity });
       }
     }
-
     // Actualizar el carrito con productos no comprados
     cart.products = productsNotPurchased;
-    console.log(productsNotPurchased,cart)
+
     // Guardar el carrito actualizado
     await cart.save();
+    if(!productsNotPurchased)
+    {
+      return { error: 'Ningun producto tenia stock.' };
+    }
     const code = await generateUniqueCode(); 
     // Crear un ticket con los productos comprados
     const ticket = new Ticket({

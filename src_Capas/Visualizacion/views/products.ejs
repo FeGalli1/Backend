@@ -25,7 +25,7 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <h2 class="card-title"><%= product.name %></h2>
-                    <p class="card-text">Precio: <%= product.price %></p>
+                    <p class="card-text">Precio: $ <%= product.price %></p>
                     <a href="/products/<%= product._id %>" style="margin: 1rem;" class="btn btn-primary">Ver detalles</a>
         
                     <form>
@@ -127,8 +127,12 @@
             })
             .then(data => {
                 console.log("Respuesta del servidor:", data);
-                // Limpiar el carrito local después de finalizar la compra
-                localCart = [];
+                if (data.status === 'success') {
+                    // Limpiar el carrito local después de finalizar la compra
+                    localCart = [];
+                    // Redirigir al usuario a la página del ticket con el ID proporcionado
+                window.location.href = `/api/carts/ticket/${data.ticketId}`;
+                }   
             })
             .catch(error => {
                 console.error("Error al realizar la solicitud POST:", error);

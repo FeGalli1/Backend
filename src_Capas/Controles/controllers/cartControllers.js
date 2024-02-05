@@ -1,142 +1,132 @@
+import { createError, errors } from '../../Errores/errorModule.js';
 import CartRepository from '../../Persistencia/DAO/CartRepository.js';
 
-const cartRepository =  CartRepository;
+const cartRepository = CartRepository;
 
 export const getCarts = async (req, res) => {
-  try {
-    const carts = await cartRepository.getAllCarts();
-    res.status(200).json({
-      status: 'success',
-      payload: carts,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(error.status || 500).json({
-      status: 'error',
-      message: error.message || 'Ocurrió un error al obtener los carritos.',
-    });
-  }
+    try {
+        const carts = await cartRepository.getAllCarts();
+        res.status(200).json({
+            status: 'success',
+            payload: carts,
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITOS_NOT_FOUND);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const saveCart = async (req, res) => {
-  try {
-    const { product, quantity } = req.body;
-    const newCart = await cartRepository.createCart(product, quantity);
-    res.status(200).json({
-      status: 'success',
-      message: 'Carrito guardado exitosamente.',
-      cart: newCart,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(error.status || 500).json({
-      status: 'error',
-      message: error.message || 'Ocurrió un error al guardar el carrito.',
-    });
-  }
+    try {
+        const { product, quantity } = req.body;
+        const newCart = await cartRepository.createCart(product, quantity);
+        res.status(200).json({
+            status: 'success',
+            message: 'Carrito guardado exitosamente.',
+            cart: newCart,
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_NOT_SAVE);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const getSingleCart = async (req, res) => {
-  try {
-    const cart = await cartRepository.getCart(req.params.cid);
-    if (!cart) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Carrito no encontrado.',
-      });
-    }
+    try {
+        const cart = await cartRepository.getCart(req.params.cid);
+        if (!cart) {
+            const errorDetails = createError(errors.CARRITO_NOT_FOUND);
+            return res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+        }
 
-    res.status(200).json({
-      status: 'success',
-      payload: cart,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al obtener el carrito.',
-    });
-  }
+        res.status(200).json({
+            status: 'success',
+            payload: cart,
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_NOT_O);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const removeProductFromCart = async (req, res) => {
-  try {
-    await cartRepository.deleteProductFromCart(req.params.cid, req.params.pid);
-    res.status(200).json({
-      status: 'success',
-      message: 'Producto eliminado del carrito.',
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al eliminar el producto del carrito.',
-    });
-  }
+    try {
+        await cartRepository.deleteProductFromCart(req.params.cid, req.params.pid);
+        res.status(200).json({
+            status: 'success',
+            message: 'Producto eliminado del carrito.',
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_NO_ELIMINADO);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const updateWholeCart = async (req, res) => {
-  try {
-    await cartRepository.updateCart(req.params.cid, req.body.products);
-    res.status(200).json({
-      status: 'success',
-      message: 'Carrito actualizado.',
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al actualizar el carrito.',
-    });
-  }
+    try {
+        await cartRepository.updateCart(req.params.cid, req.body.products);
+        res.status(200).json({
+            status: 'success',
+            message: 'Carrito actualizado.',
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_UPDATE_ERROR);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const updateProductQuantityInCart = async (req, res) => {
-  try {
-    await cartRepository.updateProductInCart(req.params.cid, req.params.pid, req.body.quantity);
-    res.status(200).json({
-      status: 'success',
-      message: 'Cantidad del producto en el carrito actualizada.',
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al actualizar la cantidad del producto en el carrito.',
-    });
-  }
+    try {
+        await cartRepository.updateProductInCart(req.params.cid, req.params.pid, req.body.quantity);
+        res.status(200).json({
+            status: 'success',
+            message: 'Cantidad del producto en el carrito actualizada.',
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_PRODUCT_QUANTITY_UPDATE_ERROR);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const removeCart = async (req, res) => {
-  try {
-    await cartRepository.deleteCart(req.params.cid);
-    res.status(200).json({
-      status: 'success',
-      message: 'Todos los productos eliminados del carrito.',
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al eliminar todos los productos del carrito.',
-    });
-  }
+    try {
+        await cartRepository.deleteCart(req.params.cid);
+        res.status(200).json({
+            status: 'success',
+            message: 'Todos los productos eliminados del carrito.',
+        });
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_REMOVE_ERROR);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
 
 export const purchaseCard = async (req, res) => {
-  try {
-    const cardId = req.params.cid;
-    const result = await cartRepository.purchase(cardId, req.user); // Pasa el usuario autenticado a la función purchase
-    res.status(200).json({
-      status: 'success',
-      message: 'Finalización de compra completa',
-      result,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      status: 'error',
-      message: 'Ocurrió un error al finalizar la compra.',
-    });
-  }
+    try {
+        const cardId = req.params.cid;
+        const result = await cartRepository.purchase(cardId, req.user);
+        if (result.error) {
+            res.status(500).json({
+                status: 'error',
+                message: result.error,
+            });
+        } else {
+            res.status(200).json({
+                status: 'success',
+                message: 'Finalización de compra completa',
+                ticketId: result.ticket._id,
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        const errorDetails = createError(errors.CARRITO_PURCHASE_ERROR);
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
+    }
 };
