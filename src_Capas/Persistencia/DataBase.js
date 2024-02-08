@@ -26,9 +26,6 @@ const connectToDB = async () => {
 
 export default connectToDB;
 
-if (process.env.NODE_ENV !== 'production') {
-  connection.on('error', (err) => logError(err));
-}
 
 
 // sin mongo atlas, solo mongo db
