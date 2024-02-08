@@ -1,18 +1,18 @@
-//aunque esta mal desarrollada ../../persistencia porque salgo y veuelvo a entrar, es por problemas con la mayuscula
-import { calculateTotalAmount, generateUniqueCode } from '../../Controles/utils/helpers.js';
 import { Cart } from '../../persistencia/models/CartsModel.js';
 import { Product } from '../models/ProductModel.js';
 import { Ticket } from '../models/TicketsModel.js';
 import User from '../models/UserModel.js';
-import ProductRepository from './ProductRepository.js';
+import { logDebug, logError, logInfo } from '../../Errores/Winston.js';
 
 const createError = (status, message) => ({ status, message });
 
 export const getAllCarts = async () => {
   try {
-    return await Cart.find().populate('products');
+    const carts = await Cart.find().populate('products');
+    logInfo('Todos los carritos fueron obtenidos correctamente.');
+    return carts;
   } catch (error) {
-    throw createError(500, 'Error al obtener los carritos desde la base de datos.');
+    throw logError(500, 'Error al obtener los carritos desde la base de datos.');
   }
 };
 
@@ -21,20 +21,26 @@ export const createCart = async (product, quantity) => {
     if (!product || !quantity || typeof quantity !== 'number' || quantity < 1) {
       throw createError(400, 'Los datos del carrito son inválidos.');
     }
-    console.log("desde CartDAO crear product: ", product)
+    logDebug("desde CartDAO crear product: ", product)
     const cart = new Cart();
-
-    return await cart.save();
+    await cart.save();
+    logInfo('Carrito creado correctamente.');
+    return cart;
   } catch (error) {
-    throw createError(500, 'Error al crear el carrito en la base de datos.');
+    throw logError(500, 'Error al crear el carrito en la base de datos.');
   }
 };
 
 export const getCart = async (cartId) => {
   try {
-    return await Cart.findById(cartId).populate('products');
+    const cart = await Cart.findById(cartId).populate('products');
+    if (!cart) {
+      throw createError(404, 'Carrito no encontrado.');
+    }
+    logInfo('Carrito obtenido correctamente.');
+    return cart;
   } catch (error) {
-    throw createError(500, 'Error al obtener el carrito desde la base de datos.');
+    throw logError(500, 'Error al obtener el carrito desde la base de datos.');
   }
 };
 
@@ -47,8 +53,9 @@ export const deleteProductFromCart = async (cartId, productId) => {
 
     cart.products.pull({ _id: productId });
     await cart.save();
+    logInfo(`Producto eliminado del carrito ${cartId} correctamente.`);
   } catch (error) {
-    throw createError(500, 'Error al eliminar el producto del carrito en la base de datos.');
+    throw logError(500, 'Error al eliminar el producto del carrito en la base de datos.');
   }
 };
 
@@ -59,21 +66,17 @@ export const updateCart = async (cartId, updatedProducts) => {
       throw createError(404, 'Carrito no encontrado.');
     }
 
-    // Iterar sobre los productos actualizados
     for (const productUpdate of updatedProducts) {
       const productId = productUpdate.id;
       const updatedQuantity = productUpdate.quantity;
 
-      // Buscar el índice del producto en el carrito
       const productIndex = cart.products.findIndex(
         (product) => String(product.product) === productId
       );
 
-      // Si el producto está en el carrito, actualizar la cantidad
       if (productIndex !== -1) {
         cart.products[productIndex].quantity = updatedQuantity;
       } else {
-        // Si el producto no está en el carrito, agregarlo
         cart.products.push({
           product: productId,
           quantity: updatedQuantity,
@@ -81,13 +84,12 @@ export const updateCart = async (cartId, updatedProducts) => {
       }
     }
 
-    // Guardar el carrito actualizado
     await cart.save();
+    logInfo(`Carrito ${cartId} actualizado correctamente.`);
   } catch (error) {
-    throw createError(500, 'Error al actualizar el carrito en la base de datos.');
+    throw logError(500, 'Error al actualizar el carrito en la base de datos.');
   }
 };
-
 
 export const updateProductInCart = async (cartId, productId, updatedQuantity) => {
   try { 
@@ -100,9 +102,10 @@ export const updateProductInCart = async (cartId, productId, updatedQuantity) =>
     if (productInCart) {
       productInCart.quantity = updatedQuantity;
       await cart.save();
+      logInfo(`Cantidad del producto actualizada en el carrito ${cartId} correctamente.`);
     }
   } catch (error) {
-    throw createError(500, 'Error al actualizar la cantidad del producto en el carrito.');
+    throw logError(500, 'Error al actualizar la cantidad del producto en el carrito.');
   }
 };
 
@@ -115,87 +118,75 @@ export const deleteCart = async (cartId) => {
 
     cart.products = [];
     await cart.save();
+    logInfo(`Carrito ${cartId} eliminado correctamente.`);
   } catch (error) {
-    throw createError(500, 'Error al eliminar el carrito en la base de datos.');
+    throw logError(500, 'Error al eliminar el carrito en la base de datos.');
   }
 };
 
-
 export const purchase = async (cartId) => {
   try {
-    // Obtener el carrito y los productos asociados
     const cart = await Cart.findById(cartId);
 
-    // Validar si el carrito existe
     if (!cart) {
-      return { error: 'Carrito no encontrado.' };
+      throw createError(404, 'Carrito no encontrado.');
     }
 
-    // Obtener el usuario asociado al carrito
     const user = await User.findById(cart.owner);
 
-    // Validar si el usuario existe
     if (!user) {
-      return { error: 'Usuario no encontrado.' };
+      throw createError(404, 'Usuario no encontrado.');
     }
 
-    // Inicializar arrays para productos comprados y no comprados
     const productsToPurchase = [];
     const productsNotPurchased = [];
 
-    // Verificar y procesar cada producto en el carrito
     for (const cartProduct of cart.products) {
       const productId = cartProduct.product;
 
-      // Validar si el productId existe
       if (!productId) {
-        console.error(cartProduct, cart);
-        return { error: 'ID del producto no encontrado en el carrito.' };
+        logError(cartProduct, cart);
+        throw createError(404, 'ID del producto no encontrado en el carrito.');
       }
 
       const desiredQuantity = cartProduct.quantity;
-      console.log(productId, ' products ', desiredQuantity, ' producto ');
       const product = await Product.findById(productId);
 
-      // Validar si el producto existe
       if (!product) {
-        return { error: 'Producto no encontrado.' };
+        throw createError(404, 'Producto no encontrado.');
       }
 
-      // Verificar disponibilidad de stock
       if (product.stock >= desiredQuantity) {
-        // Restar del stock y agregar al array de productos comprados
         product.stock -= parseInt(desiredQuantity);
         productsToPurchase.push({ product, quantity: desiredQuantity });
         await product.save();
       } else {
-        // Agregar al array de productos no comprados
         productsNotPurchased.push({ productId: product._id, quantity: desiredQuantity });
       }
     }
-    // Actualizar el carrito con productos no comprados
-    cart.products = productsNotPurchased;
 
-    // Guardar el carrito actualizado
+    cart.products = productsNotPurchased;
     await cart.save();
-    if(!productsNotPurchased)
-    {
-      return { error: 'Ningun producto tenia stock.' };
+    
+    if(!productsNotPurchased) {
+      throw createError(404, 'Ningun producto tenia stock.');
     }
+    
     const code = await generateUniqueCode(); 
-    // Crear un ticket con los productos comprados
+
     const ticket = new Ticket({
-      code: code, // Implementa esta función
+      code: code,
       amount: calculateTotalAmount(productsToPurchase),
-      purchaser: user.email, // Usa el correo electrónico del usuario
+      purchaser: user.email,
     });
 
-    // Guardar el ticket en la base de datos
     await ticket.save();
+    sendGmail(user.email, "Procesando Compra", ticket);
 
+    logInfo('Compra realizada correctamente.');
     return { success: true, ticket, productsNotPurchased };
   } catch (error) {
-    console.error(error);
-    return { error: 'Error al procesar la compra.' };
+    logError(error);
+    throw logError(500, 'Error al procesar la compra.');
   }
 };

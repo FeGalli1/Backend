@@ -1,3 +1,5 @@
+import { logWarning } from "./Winston.js";
+
 // errorModule.js
 export const errors = {
     USER_ALREADY_EXISTS: { status: 400, message: 'El usuario ya existe.' },
@@ -26,5 +28,7 @@ export const errors = {
 
 export const createError = (errorCode) => {
     const errorDetails = errors[errorCode] || { status: 500, message: 'Error desconocido.' };
+    //estos errores son solo de los controllers por pedido de la entrega anterior, ahora deben de generarse como error desde los dao, para no ver dos veces el mimso error lo mando como Warning
+    logWarning(errorDetails)
     return errorDetails;
 };

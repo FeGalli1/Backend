@@ -1,0 +1,6 @@
+{"level":"error","message":"Esto es un error de prueba"}
+{"level":"error","message":"Esto es un error de prueba"}
+[31merror[39m: Esto es un error de prueba
+[31merror[39m: Esto es un error de prueba
+{"level":"error","message":"Esto es un error de prueba"}
+{"level":"error","message":"Error starting server:Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Errores\\Winston' imported from C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Persistencia\\Mock\\mockingModule.js"}

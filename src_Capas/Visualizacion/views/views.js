@@ -1,4 +1,5 @@
 import { getProductByIdController, getProducts } from '../../Controles/controllers/ProductsControllers.js';
+import { logError } from '../../Errores/Winston.js';
 import ProductRepository from '../../Persistencia/DAO/ProductRepository.js';
 import { Product } from '../../Persistencia/models/ProductModel.js'
 
@@ -17,7 +18,7 @@ export const viewsRouter = async (req, res) => {
 
         res.render('products', { products, prevLink, nextLink,  user: req.session.user });
     } catch (error) {
-        console.error(error)
+        logError(error)
         res.status(500).send('Error al obtener la lista de productos')
     }
 }
@@ -34,7 +35,7 @@ export const renderProductDetails = async (req, res) => {
 
         res.render('product-details', { product });
     } catch (error) {
-        console.error(error);
+        logError(error);
         res.status(500).json({
             status: 'error',
             message: 'Ocurrió un error al obtener los detalles del producto.',

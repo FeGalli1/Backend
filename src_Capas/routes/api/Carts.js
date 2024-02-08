@@ -5,6 +5,7 @@ import { requireAdmin } from '../../Controles/middleware/adminMiddleware.js';
 import { requireAuth } from '../../Controles/middleware/authMiddleware.js';
 import { getCarts, getSingleCart, purchaseCard, removeCart, removeProductFromCart, saveCart, updateProductQuantityInCart, updateWholeCart } from '../../Controles/controllers/cartControllers.js';
 import { Ticket } from '../../Persistencia/models/TicketsModel.js';
+import { logError } from '../../Errores/Winston.js';
 
 const router = Router()
 
@@ -28,7 +29,7 @@ router.get('/ticket/:ticketID', async (req, res) => {
       // Renderizar la página con los detalles del ticket
       res.render('ticket-details', { ticket });
     } catch (error) {
-      console.error(error);
+      logError(error);
       res.status(500).send('Error al obtener los detalles del ticket.');
     }
   });

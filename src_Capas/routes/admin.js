@@ -1,11 +1,17 @@
 import express from 'express';
 import { isAdmin } from '../Controles/middleware/authMiddleware.js';
 import { getProducts, getProductByIdController, saveProduct, deleteProductByIdController, updateProductByIdController } from '../Controles/controllers/ProductsControllers.js';
+import { logError } from '../Errores/Winston.js';
 
 const adminRouter = express.Router();
 
 // Middleware para todas las rutas de adminRouter
 adminRouter.use(isAdmin);
+
+adminRouter.get('/', async (req, res ) =>{
+    res.render('admin');
+    
+})
 
 // Ruta para visualizar y editar productos
 adminRouter.get('/productos', async (req, res) => {
@@ -14,7 +20,7 @@ adminRouter.get('/productos', async (req, res) => {
         const products = await getProducts(req, res);
         res.render('adminProducts', { products });
     } catch (error) {
-        console.error(error);
+        logError(error);
         res.status(500).json({
             status: 'error',
             message: 'Ocurrió un error al obtener los productos.',
@@ -40,7 +46,7 @@ adminRouter.get('/productos/:id/editar', async (req, res) => {
             });
         }
     } catch (error) {
-        console.error(error);
+        logError(error);
         res.status(500).json({
             status: 'error',
             message: 'Ocurrió un error al obtener el producto para editar.',
@@ -57,7 +63,7 @@ adminRouter.get('/productos/:id/eliminar', async (req, res) => {
         await deleteProductByIdController(req, res);
         res.redirect('/admin/productos');
     } catch (error) {
-        console.error(error);
+        logError(error);
         res.status(500).json({
             status: 'error',
             message: 'Ocurrió un error al eliminar el producto.',
@@ -91,7 +97,7 @@ adminRouter.post('/productos/nuevo', async (req, res) => {
         // Redirige a la lista de productos después de guardar
         res.redirect('/admin/productos');
     } catch (error) {
-        console.error(error);
+        logError(error);
         res.status(500).json({
             status: 'error',
             message: 'Ocurrió un error al procesar la carga del nuevo producto.',
@@ -113,7 +119,7 @@ adminRouter.post('/productos/:id/editar', async (req, res) => {
         // Envía una respuesta exitosa con el producto actualizado
         res.redirect('/admin/productos')
     } catch (error) {
-        console.error(error);
+        logError(error);
         res.status(500).json({
             status: 'error',
             message: 'Ocurrió un error al procesar la actualización del producto.',

@@ -1,4 +1,5 @@
 import { Faker, es , en } from '@faker-js/faker';
+import { logError } from '../../Errores/Winston.js';
 const fakerEN = new Faker({ locale: [en] });
  const faker = new Faker({ locale: [es] });
 
@@ -43,7 +44,7 @@ export const mockingProductsEndpoint = (req, res) => {
 
     res.render('productMock', { paginatedProducts, prevLink, nextLink, user: req.session.user });
   } catch (error) {
-    console.error(error);
+    logError(error);
     res.status(500).send('Error al obtener la lista de productos simulados');
   }
 };

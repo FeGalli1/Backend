@@ -5,10 +5,10 @@
     "execMap": {
         "js": "node --harmony"
     },
-    "watch": ["src_Capas/"],
+    "watch": ["src_Capas/,.env"],
     "env": {
         "NODE_ENV": "development"
     },
-    "ext": "js,json",
+    "ext": "js,json,env",
     "delay": 500
 }

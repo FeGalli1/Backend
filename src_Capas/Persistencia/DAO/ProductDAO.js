@@ -1,19 +1,23 @@
-// ProductDAO.js
 import { Product } from '../models/ProductModel.js';
+import { logError, logInfo } from '../../Errores/Winston.js';
 
 const createError = (status, message) => ({ status, message });
 
 export const getAllProducts = async (limit, page, sort, query) => {
-  const queryFilter = query ? { category: query.trim() } : {};
-  const products = await Product.find(queryFilter)
-    .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {})
-    .skip((page - 1) * limit)
-    .limit(limit);
+  try {
+    const queryFilter = query ? { category: query.trim() } : {};
+    const products = await Product.find(queryFilter)
+      .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {})
+      .skip((page - 1) * limit)
+      .limit(limit);
 
-  const totalProducts = await Product.countDocuments(queryFilter);
-  const totalPages = Math.ceil(totalProducts / limit);
+    const totalProducts = await Product.countDocuments(queryFilter);
+    const totalPages = Math.ceil(totalProducts / limit);
 
-  return products;
+    return products;
+  } catch (error) {
+    throw logError(500, 'Error al obtener los productos desde la base de datos.');
+  }
 };
 
 export const createProduct = async (name, photo, price, category, description) => {
@@ -30,23 +34,25 @@ export const createProduct = async (name, photo, price, category, description) =
       description,
     });
 
-    return await product.save();
+    await product.save();
+    logInfo('Producto creado correctamente.');
+    return product;
   } catch (error) {
-    throw createError(500, 'Error al crear el producto en la base de datos.');
+    throw logError(500, 'Error al crear el producto en la base de datos.');
   }
 };
 
 export const getProductById = async (productId) => {
   try {
-    console.log(productId)
     const product = await Product.findById(productId);
     if (!product) {
       throw createError(404, 'Producto no encontrado.');
     }
 
+    logInfo(`Producto con ID ${productId} obtenido correctamente.`);
     return product;
   } catch (error) {
-    throw createError(500, 'Error al obtener el producto desde la base de datos.');
+    throw logError(500, 'Error al obtener el producto desde la base de datos.');
   }
 };
 
@@ -56,30 +62,26 @@ export const deleteProductById = async (productId) => {
     if (result.deletedCount === 0) {
       throw createError(404, 'Producto no encontrado para eliminar.');
     }
+
+    logInfo(`Producto con ID ${productId} eliminado correctamente.`);
   } catch (error) {
-    
-    t
-throw createError(500, 'Error al eliminar el producto desde la base de datos.');
+    throw logError(500, 'Error al eliminar el producto desde la base de datos.');
   }
 };
 
 export const updateProductById = async (productId, updatedProductData) => {
   try {
-      // Verifica si el producto existe
-      const existingProduct = await Product.findById(productId);
-      if (!existingProduct) {
-          throw createError(404, 'Producto no encontrado.');
-      }
+    const existingProduct = await Product.findById(productId);
+    if (!existingProduct) {
+      throw createError(404, 'Producto no encontrado.');
+    }
 
-      // Actualiza los campos del producto con los datos proporcionados
-      existingProduct.set(updatedProductData);
+    existingProduct.set(updatedProductData);
+    const updatedProduct = await existingProduct.save();
 
-      // Guarda los cambios en la base de datos
-      const updatedProduct = await existingProduct.save();
-
-      return updatedProduct;
+    logInfo(`Producto con ID ${productId} actualizado correctamente.`);
+    return updatedProduct;
   } catch (error) {
-      // Puedes personalizar la forma en que manejas el error según tus necesidades
-      throw createError(500, 'Error al actualizar el producto en la base de datos.');
+    throw logError(500, 'Error al actualizar el producto en la base de datos.');
   }
 };

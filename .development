@@ -1,0 +1,11 @@
+PORT=3001
+MONGODB_URL=mongodb://127.0.0.1:27017/Base-Datos-Proyecto
+COOKIEKEY=GalliPrueba
+
+
+MONGODB_ATLAS_CONNECTION_STRING=mongodb+srv://felipegall1:fHWuUYnulWy1Gzli@ecommerscoderhouse.2hww8db.mongodb.net/?retryWrites=true&w=majority
+
+
+ID_CLIENT= Iv1.8e26441660c9e03f
+CLIENT_SECRET= f0c130709520615ea8b6ddd9ec959a31273f8439
+CALLBACKURL= http://localhost:3001/login/githubcallback

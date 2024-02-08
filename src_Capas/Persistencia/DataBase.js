@@ -2,6 +2,7 @@
 
 import mongoose from 'mongoose';
 import config from '../config.js';
+import {  logError, logInfo } from '../Errores/Winston.js';
 
 const { connect, connection } = mongoose;
 
@@ -14,11 +15,11 @@ const mongooseOptions = {
 
 const connectToDB = async () => {
   try {
-    await connect(config.MONGODB_ATLAS_CONNECTION_STRING, mongooseOptions);
-    console.log('Connection to MongoDB successful!');
+    connect(config.MONGODB_ATLAS_CONNECTION_STRING, mongooseOptions);
+    logInfo('Connection to MongoDB successful!');
     return true; // Signal successful connection
   } catch (err) {
-    console.error(`Error connecting to MongoDB: ${err}`);
+    logError(`Error connecting to MongoDB: ${err}`);
     process.exit(1);
   }
 };
@@ -26,11 +27,11 @@ const connectToDB = async () => {
 export default connectToDB;
 
 if (process.env.NODE_ENV !== 'production') {
-  connection.on('error', (err) => console.log(err));
+  connection.on('error', (err) => logError(err));
 }
 
 
-// sin mongo atlas
+// sin mongo atlas, solo mongo db
 // 'use strict'
 
 // import mongoose from 'mongoose'

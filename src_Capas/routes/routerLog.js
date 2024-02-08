@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as AuthController from '../Controles/controllers/AuthController.js';
 import passport from 'passport';
+import { logDebug } from '../Errores/Winston.js';
 
 const routerLog = Router();
 
@@ -26,7 +27,7 @@ routerLog.get('/logout', (req, res) => {
 // Ruta para iniciar sesión con GitHub
 routerLog.get('/login/github', passport.authenticate('github',{scope:['user: email']}),
 async(req,res)=>{
-        console.log(scope)
+        logDebug(scope)
 })
 
 routerLog.get('/login/githubcallback' ,passport.authenticate('github', {failureRedirect:'/login' }), async(req,res)=>{

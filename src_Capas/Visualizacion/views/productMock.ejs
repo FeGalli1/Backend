@@ -26,15 +26,13 @@
                 <div class="card-body">
                     <h2 class="card-title"><%= product.name %></h2>
                     <p class="card-text">Precio: $ <%= product.price %></p>
-                    <a href="/products/<%= product._id %>" style="margin: 1rem;" class="btn btn-primary">Ver detalles</a>
-        
+                    <p class="card-text"><%= product.description %></p>
+
                     <form>
                         <input type="hidden" name="product" value="<%= product._id %>" />
                         <% if (user) { %>
-                            <input type="hidden" name="cartId" value="<%= user.cart %>" /> 
-                            <label for="quantity_<%= product._id %>">Cantidad:</label>
-                            <input type="number" id="quantity_<%= product._id %>" name="quantity" value="1" min="1">
-                            <button style="margin: 1rem;" type="button" class="btn btn-success" onclick="addToCart('<%= product._id %>', document.getElementById('quantity_<%= product._id %>').value, '<%= user.cart %>');">Agregar al carrito</button>
+                            
+                            <a href="/products" class="btn btn-primary me-2">Ir a la tineda real</a>
                             <% } else { %>
                             <a href="/login" class="btn btn-primary me-2">Iniciar sesión</a>
                         <% } %>
