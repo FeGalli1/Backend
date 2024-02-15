@@ -19,8 +19,7 @@ export const getAllProducts = async (limit, page, sort, query) => {
     throw logError(500, 'Error al obtener los productos desde la base de datos.');
   }
 };
-
-export const createProduct = async (name, photo, price, category, description) => {
+export const createProduct = async (name, photo, price, category, description, owner = 'admin') => {
   try {
     if (!name || !photo || !price || !category || !description) {
       throw createError(400, 'Todos los campos son obligatorios.');
@@ -32,13 +31,16 @@ export const createProduct = async (name, photo, price, category, description) =
       price,
       category,
       description,
+      owner,
     });
+    logInfo(product);
 
     await product.save();
     logInfo('Producto creado correctamente.');
     return product;
   } catch (error) {
-    throw logError(500, 'Error al crear el producto en la base de datos.');
+    // Debes lanzar el error original para obtener más detalles
+    throw error;
   }
 };
 
@@ -60,12 +62,12 @@ export const deleteProductById = async (productId) => {
   try {
     const result = await Product.deleteOne({ _id: productId });
     if (result.deletedCount === 0) {
-      throw createError(404, 'Producto no encontrado para eliminar.');
+      throw createError( 'Producto no encontrado para eliminar.');
     }
 
     logInfo(`Producto con ID ${productId} eliminado correctamente.`);
   } catch (error) {
-    throw logError(500, 'Error al eliminar el producto desde la base de datos.');
+    throw logError( 'Error al eliminar el producto desde la base de datos.'); 
   }
 };
 

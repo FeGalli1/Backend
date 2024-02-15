@@ -1,7 +1,7 @@
 import express from 'express';
 import { isAdmin } from '../Controles/middleware/authMiddleware.js';
 import { getProducts, getProductByIdController, saveProduct, deleteProductByIdController, updateProductByIdController } from '../Controles/controllers/ProductsControllers.js';
-import { logError } from '../Errores/Winston.js';
+import { logError, logInfo } from '../Errores/Winston.js';
 
 const adminRouter = express.Router();
 
@@ -58,8 +58,7 @@ adminRouter.get('/productos/:id/editar', async (req, res) => {
 
 adminRouter.get('/productos/:id/eliminar', async (req, res) => {
     try {
-        // Elimina el producto por ID utilizando la función del controlador
-        const productId = req.params.id;
+ 
         await deleteProductByIdController(req, res);
         res.redirect('/admin/productos');
     } catch (error) {
@@ -90,34 +89,23 @@ adminRouter.post('/productos/nuevo', async (req, res) => {
                  message: 'Datos del nuevo producto no proporcionados.',
              });
          }
- 
-         // Procesa la carga de un nuevo producto utilizando la función del controlador
-         await saveProduct( req, res);
-
-        // Redirige a la lista de productos después de guardar
-        res.redirect('/admin/productos');
-    } catch (error) {
-        logError(error);
-        res.status(500).json({
-            status: 'error',
-            message: 'Ocurrió un error al procesar la carga del nuevo producto.',
-        });
-    }
-});
+         await saveProduct(req, res);
+        } catch (error) {
+            logError(error);
+            res.status(500).json({
+                status: 'error',
+                message: 'Ocurrió un error al procesar la carga del nuevo producto.',
+            });
+        }
+    });
 // Ruta para procesar la actualización de un producto (POST)
 adminRouter.post('/productos/:id/editar', async (req, res) => {
     try {
-        // Obtén el productId de los parámetros de la URL
-        const productId = req.params.id;
-
-        // Obtén los datos actualizados del producto del cuerpo de la solicitud (req.body)
-        const updatedProductData = req.body;
 
         // Llama a la función del controlador para manejar la lógica de actualización del producto
-        await updateProductByIdController(productId, updatedProductData);
+        await updateProductByIdController(req, res);
 
-        // Envía una respuesta exitosa con el producto actualizado
-        res.redirect('/admin/productos')
+
     } catch (error) {
         logError(error);
         res.status(500).json({

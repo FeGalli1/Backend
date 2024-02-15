@@ -14,7 +14,7 @@ export const requireAuth = (req, res, next) => {
 // Middleware para verificar el rol de administrador
 export const isAdmin = (req, res, next) => {
     // Lógica para verificar si el usuario es administrador
-    if (req.user && req.user.role === 'admin' || req.user.role === 'premium') {
+    if (req.user && (req.user.role === 'admin' || req.user.role === 'premium')) {
         return next();
     } else {
         return res.status(403).json({ status: 'error', message: 'Acceso no autorizado para usuarios' });

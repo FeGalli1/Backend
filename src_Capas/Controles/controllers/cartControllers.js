@@ -1,3 +1,4 @@
+import { logError, logWarning } from '../../Errores/Winston.js';
 import { createError, errors } from '../../Errores/errorModule.js';
 import CartRepository from '../../Persistencia/DAO/CartRepository.js';
 
@@ -20,6 +21,21 @@ export const getCarts = async (req, res) => {
 export const saveCart = async (req, res) => {
     try {
         const { product, quantity } = req.body;
+        const user = req.user; // Obtener el usuario desde req.user
+
+        // Verificar si el usuario es premium
+        if (user.role === 'premium') {
+            // Verificar si el producto fue creado por el usuario
+            if (product.owner === user._id) {
+                // Si el producto fue creado por el usuario, devolver un error
+                logWarning(`el usuario ${user} intento agregar un producto propio al carrito`)
+                return res.status(400).json({
+                    status: 'error',
+                    message: 'No puedes agregar tu propio producto al carrito.',
+                });
+            }
+        }
+        // Si el usuario no es premium o si el producto no fue creado por él, proceder a guardar el carrito
         const newCart = await cartRepository.createCart(product, quantity);
         res.status(200).json({
             status: 'success',
@@ -32,6 +48,7 @@ export const saveCart = async (req, res) => {
         res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message });
     }
 };
+
 
 export const getSingleCart = async (req, res) => {
     try {
