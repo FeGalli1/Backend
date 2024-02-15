@@ -1,7 +1,7 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github';
-import  User  from '../../persistencia/models/UserModel.js';
+import  User  from '../../Persistencia/models/UserModel.js';
 import {  isValidPassword } from '../utils/helpers.js';
 import { Cart } from '../../persistencia/models/CartsModel.js';
 import config from '../../config.js';

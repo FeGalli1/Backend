@@ -26,6 +26,7 @@ const productSchema = Schema({
         required: true,
     },
     stock: { type: Number, default: 0 },
+    owner: { type: Schema.Types.ObjectId, ref: 'User', default: 'admin' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 })

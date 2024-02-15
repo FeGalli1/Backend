@@ -6,8 +6,10 @@ const userSchema = new mongoose.Schema({
     email: { type: String, unique: true },
     age: Number,
     password: String,
-    cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart'},
+    cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart' },
     role: { type: String, default: 'user' },
+    resetToken: String, // Token para restablecer la contraseña
+    resetTokenExpiration: Date, // Fecha de expiración del token de restablecimiento de contraseña
 });
 
 const User = mongoose.model('User', userSchema);

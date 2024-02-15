@@ -56,6 +56,8 @@ server.get('/mockingproducts', notAdmin, mockingProductsEndpoint);
 // RUTA DE ADMINISTRADOR
 server.use('/admin', adminRouter);
 
+router.put('/users/premium/:uid', changeRole)
+
 // Rutas de login
 server.use('/', routerLog);
 
@@ -81,6 +83,7 @@ import { Server } from 'socket.io';
 import { setTimeout } from 'timers';
 import { isUser, notAdmin } from '../Controles/middleware/authMiddleware.js';
 import { mockingProductsEndpoint } from '../Persistencia/Mock/mockingModule.js';
+import { changeRole } from '../Controles/controllers/AuthController.js';
 
 const primerEnvio = () => {
     setTimeout(() => {

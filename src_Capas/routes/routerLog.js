@@ -35,4 +35,20 @@ routerLog.get('/login/githubcallback' ,passport.authenticate('github', {failureR
     res.redirect('/products')
 })
 
+
+
+// Ruta para mostrar el formulario de solicitud de restablecimiento de contraseña
+routerLog.get('/forgot-password', AuthController.renderForgotPasswordForm);
+
+// Ruta para procesar el formulario de solicitud de restablecimiento de contraseña
+routerLog.post('/forgot-password', AuthController.processForgotPasswordForm);
+
+// Ruta para manejar el enlace de restablecimiento de contraseña
+routerLog.get('/reset-password/:token', AuthController.renderResetPasswordForm);
+
+// Ruta para procesar el formulario de restablecimiento de contraseña
+routerLog.post('/reset-password/:token', AuthController.processResetPasswordForm);
+
+
 export default routerLog;
+ 

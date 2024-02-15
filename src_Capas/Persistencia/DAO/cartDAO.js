@@ -181,7 +181,22 @@ export const purchase = async (cartId) => {
     });
 
     await ticket.save();
-    sendGmail(user.email, "Procesando Compra", ticket);
+    const email = `
+      <div style="max-width: 960px; margin: 0 auto;">
+          <div style="border: 1px solid #dee2e6; background-color: #fff; padding: 1.5rem; margin-top: 1rem;">
+              <h1 style="text-align: center; margin-bottom: 4rem;">Detalles del Ticket</h1>
+          
+              <p style="margin-bottom: 2rem;">Número de Ticket: ${ticket.code}</p>
+              <p style="margin-bottom: 2rem;">Monto Total: $ ${ticket.amount}</p>
+              <p style="margin-bottom: 4rem;">Mail de Facturación: ${ticket.purchaser}</p>
+      
+              <div style="text-align: center;">
+                  <a href="/api/carts/ticket/${ticket.code}" style="display: inline-block; padding: 0.5rem 1rem; border: 1px solid #007bff; background-color: #007bff; color: #fff; text-decoration: none; font-size: 1rem; cursor: pointer;">Ver Compra</a>
+              </div>
+          </div>
+      </div>
+    `
+    sendGmail(user.email, "Procesando Compra", email);
 
     logInfo('Compra realizada correctamente.');
     return { success: true, ticket, productsNotPurchased };

@@ -92,7 +92,7 @@ adminRouter.post('/productos/nuevo', async (req, res) => {
          }
  
          // Procesa la carga de un nuevo producto utilizando la función del controlador
-         await saveProduct(nuevoProducto, req, res);
+         await saveProduct( req, res);
 
         // Redirige a la lista de productos después de guardar
         res.redirect('/admin/productos');

@@ -13,6 +13,7 @@ export const isValidPassword = ( user, password) => bcrypt.compareSync(password,
 
 import { v4 as uuidv4 } from 'uuid';
 import { Ticket } from '../../Persistencia/models/TicketsModel.js'; // Asegúrate de proporcionar la ruta correcta al modelo Ticket
+import User from '../../Persistencia/models/UserModel.js';
 
 // Función para generar y verificar un código único
 export const generateUniqueCode = async () => {
@@ -49,7 +50,41 @@ export const calculateTotalAmount = (productsToPurchase) => {
   };
 
 
+  import crypto from 'crypto';
+import { sendGmail } from '../../email.js';
+import config from '../../config.js';
 
+//  Generación de token de restablecimiento de contraseña
+const generateResetToken = () => {
+  return crypto.randomBytes(20).toString('hex');
+};
+
+// Envío del correo electrónico con el enlace de restablecimiento
+export const sendPasswordResetEmail = async (email) => {
+  try {
+      const user = await User.findOne({ email });
+      if (!user) {
+          throw new Error('Usuario no encontrado');
+      }
+
+      const resetToken = generateResetToken();
+      user.resetToken = resetToken;
+      user.resetTokenExpiration = Date.now() + 3600000; // 1 hora de expiración
+      await user.save();
+
+      const resetLink = `http://localhost:${config.PORT}/reset-password/${resetToken}`;
+      const emailContent = `Para restablecer tu contraseña, haz clic en el siguiente enlace: <a href="${resetLink}">Restablecer contraseña</a>`;
+
+      // Aquí debes enviar el correo electrónico utilizando tu método de envío de correo electrónico
+      // Por ejemplo, puedes usar nodemailer para enviar el correo electrónico
+      sendGmail(user.email, 'Restablecer contraseña', emailContent);
+
+      return { success: true, message: 'Correo electrónico enviado con éxito para restablecer la contraseña.' };
+  } catch (error) {
+      console.error(error);
+      throw new Error('Error al enviar el correo electrónico de restablecimiento de contraseña');
+  }
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

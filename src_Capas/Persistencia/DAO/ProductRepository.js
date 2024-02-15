@@ -16,7 +16,7 @@ class ProductRepository {
     // Implementa la lógica para obtener un producto por su ID
     return await ProductDAO.getProductById(productId);
   }
-  async updateProductById(productId, updatedProductData) {
+  async updateProductById(productId, updatedProductData) { 
     try {
         // Implementa la lógica para actualizar el producto en el repositorio de datos
         const updatedProduct = await ProductDAO.updateProductById(productId, updatedProductData);
