@@ -24,7 +24,7 @@ const productSchema = Schema({
     description: {
         type: String,
         required: true,
-    }, 
+    },   
     stock: { type: Number, default: 0 },
     owner: { type: String, 
             default: 'admin' },

@@ -1,164 +1,324 @@
 openapi: 3.0.3
 
 info:
-  version: 0.0.1
-  title: 'products REST API'
-  description: 'products API is a RESTful API '
-  termsOfService: TERMS_OF:SERVICE
+  version: 1.0.0
+  title: API de E-commerce
+  description: API para gestionar productos, carritos y operaciones de administración en un sistema de comercio electrónico.
+  termsOfService: https://example.com/terminos-de-servicio
   license:
     name: MIT
-    url: LICENSE
+    url: https://opensource.org/licenses/MIT
   contact:
     name: Felipe Galli
-    email: felipegall1.fg@gmail.con
+    email: felipegall1.fg@gmail.com
 
 tags:
-  - name: product
-    description: todo sobre productos
+  - name: productos
+    description: Operaciones relacionadas con la gestión de productos
+  - name: carritos
+    description: Operaciones relacionadas con la gestión de carritos de compra
+  - name: admin
+    description: Operaciones relacionadas con tareas de administración
 
 servers:
-  - url: https://{HOST}:{PORT}/{BASE_PATH}
+  - url: http://{HOST}:{PORT}/{BASE_PATH}
     variables:
       HOST:
-        default: '127.0.0.1'
+        default: 'localhost'
       PORT:
-        default: '3000'
+        default: '3001'
       BASE_PATH:
         default: api
 
-# CRUD --> CREAT --> POST --- READ ---> GET --- UPDATE -->PUT | PATCH --- DELETE -->DELETE
 paths:
   /product:
     get:
       tags:
-        - product
-      summary: Get all products
+        - productos
+      summary: Obtener todos los productos
       responses:
         200:
-          description: A JSON array of products
+          description: Un array JSON de productos
           content:
-            aplication/json:
+            application/json:
               schema:
-                type: object
+                type: array
                 items:
-                  $ref: '#/components/schemas/Product'
-
-        404:
-          description: Return message when is not possible found products
-          content:
-            aplication/json:
-              schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/Producto'
         500:
-          description: Unexpected error
+          description: Error inesperado
           content:
-            aplication/json:
+            application/json:
               schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error'
+
     post:
       tags:
-        - product
-      summary: Create a product
+        - productos
+      summary: Crear un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
       responses:
         201:
-          description: A new peroduct have been created
+          description: El producto recién creado
           content:
-            aplication/json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/Producto'
         500:
-          description: Unexpected error
+          description: Error inesperado
           content:
-            aplication/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
   /product/{productId}:
     parameters:
       - name: productId
-        description: the product correspondig to the provide 'producId'
         in: path
+        description: El ID del producto a recuperar
         required: true
         schema:
-          $ref: '#/components/schemas/ProductID'
+          $ref: '#/components/schemas/IDProducto'
+    get:
+      tags:
+        - productos
+      summary: Recuperar un solo producto por ID
+      responses:
+        200:
+          description: El producto correspondiente al ID proporcionado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        404:
+          description: Producto no encontrado para el ID proporcionado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
     put:
       tags:
-        - product
+        - productos
+      summary: Actualizar un producto por ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
       responses:
         200:
-          description: the product correspondig to the provide 'producId'
+          description: El producto actualizado
           content:
-            aplication/json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/Producto'
         404:
-          description: no product found for the provided 'productId'
+          description: Producto no encontrado para el ID proporcionado
           content:
-            aplication/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         500:
-          description: Unexpected error
+          description: Error inesperado
           content:
-            aplication/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
     delete:
       tags:
-        - product
+        - productos
+      summary: Eliminar un producto por ID
       responses:
         200:
-          description: the product correspondig to the provide 'producId'
+          description: El producto eliminado
           content:
-            aplication/json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/Producto'
         404:
-          description: no product found for the provided 'productId'
+          description: Producto no encontrado para el ID proporcionado
           content:
-            aplication/json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         500:
-          description: Unexpected error
+          description: Error inesperado
           content:
-            aplication/json:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /carts:
+    post:
+      tags:
+        - carritos
+      summary: Crear un nuevo carrito de compra
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        200:
+          description: Se ha creado un nuevo carrito de compra
+          content:
+            application/json:
+              schema:
+                type: object
+        500:
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      tags:
+        - carritos
+      summary: Recuperar todos los carritos de compra
+      responses:
+        200:
+          description: Un array JSON de carritos de compra
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Carrito'
+        500:
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /carts/{cartId}:
+    parameters:
+      - name: cartId
+        in: path
+        description: El ID del carrito de compra a recuperar
+        required: true
+        schema:
+          $ref: '#/components/schemas/IDCarrito'
+    get:
+      tags:
+        - carritos
+      summary: Recuperar un solo carrito de compra por ID
+      responses:
+        200:
+          description: El carrito de compra correspondiente al ID proporcionado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrito'
+        404:
+          description: Carrito de compra no encontrado para el ID proporcionado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Error inesperado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - carritos
+      summary: Eliminar un carrito de compra por ID
+      responses:
+        200:
+          description: El carrito de compra eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carrito'
+        404:
+          description: Carrito de compra no encontrado para el ID proporcionado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Error inesperado
+          content:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Error'
 
 components:
   schemas:
-    ProductID:
+    IDProducto:
       type: string
-      description: The unique identifier of a product
-    Product:
+      description: El identificador único de un producto
+    Producto:
       type: object
       required:
         - name
         - photo
         - price
         - category
-        - desciption
+        - description
+        - stock
       properties:
         id:
-          $ref: '#/components/schemas/ProductID'
+          $ref: '#/components/schemas/IDProducto'
         name:
           type: string
         photo:
           type: string
         price:
           type: number
+        owner:
+          type: array
         category:
-          enum:
-            - Computers
-            - Phones
-            - Accesories
-        desciption:
           type: string
+          enum:
+            - Computadoras
+            - Teléfonos
+            - Accesorios
+        description:
+          type: string
+        stock:
+          type: number
+    IDCarrito:
+      type: string
+      description: El identificador único de un carrito de compra
+    Carrito:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/IDCarrito'
+        owner:
+          type: object
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                $ref: '#/components/schemas/IDProducto'
+              quantity:
+                type: integer
+      required:
+        - items
     Error:
       type: object
       required:
@@ -166,4 +326,4 @@ components:
       properties:
         message:
           type: string
-          description: a human readable error message
+          description: Un mensaje de error legible para humanos
