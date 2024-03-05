@@ -86,27 +86,26 @@ const createServerConfig = () => {
     })
 
     // CHAT CON WEBSOCKET
-    const serverChat = express()
-    const io = new Server(serverChat)
-    const anonymousChats = new Map()
-
     const primerEnvio = () => {
         setTimeout(() => {
             io.emit('new message', Array.from(anonymousChats.values()))
         }, 2000)
     }
 
-    serverChat.get('/admin/chat/message', async (req, res) => {
+    server.get('/admin/chat/message', async (req, res) => {
         res.render('chat-admin')
         // le tuve que poner un timeOut porque se enviaba antes de cargar la pagina y generaba problemas
         primerEnvio()
     })
 
-    serverChat.get('/chat/mensaje', (req, res) => {
+    server.get('/chat/mensaje', (req, res) => {
         res.render('chat-user.ejs')
     })
 
-    const httpServer = createServer(serverChat)
+    const serverChat = createServer(server)
+    logDebug('entro')
+    const io = new Server(serverChat)
+    const anonymousChats = new Map()
 
     io.on('connection', socket => {
         let messageHistory = []
@@ -139,8 +138,7 @@ const createServerConfig = () => {
             io.emit('new message', Array.from(anonymousChats.values()))
         })
     })
-
-    return httpServer
+    return serverChat
 }
 
 export default createServerConfig
