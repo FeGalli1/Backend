@@ -12,7 +12,7 @@ async function startServer() {
         const connected = await connectToDB() // Call connection function and check result
         if (connected) {
             try {
-                const serverModulePath = new URL('./routes/server.js', import.meta.url).pathname
+                const serverModulePath = new URL('/src_Capas/routes/server.js', import.meta.url).pathname
                 const { default: server } = await import(serverModulePath)
                 server.listen(PORT, () => console.log('el server esta listo en  http://localhost:' + config.PORT))
             } catch (err) {
