@@ -1,24 +1,20 @@
 'use strict'
 
-// import server from './server.js';
 import config from './config.js'
 import { logError } from './Errores/Winston.js'
 import connectToDB from './Persistencia/DataBase.js'
+import createServer from './routes/server.js'
+
 // Wait for database connection before starting server
 const PORT = config.PORT || 8080
+
 async function startServer() {
     try {
-        await import('./Persistencia/DataBase.js') // Import and wait for connection
-        const connected = await connectToDB() // Call connection function and check result
+        await import('./Persistencia/DataBase.js') // Importa y espera la conexión
+        const connected = await connectToDB() // Llama a la función de conexión y verifica el resultado
         if (connected) {
-            try {
-                const serverModulePath = new URL('/src_Capas/routes/server.js', import.meta.url).pathname
-                const { default: server } = await import(serverModulePath)
-                server.listen(PORT, () => console.log('el server esta listo en  http://localhost:' + config.PORT))
-            } catch (err) {
-                logError('Error starting server:' + err)
-                process.exit(1)
-            }
+            const httpServer = createServer()
+            httpServer.listen(PORT, () => console.log(`El servidor está listo en http://localhost:${PORT}`))
         }
     } catch (err) {
         logError(err)
@@ -26,4 +22,4 @@ async function startServer() {
     }
 }
 
-startServer() // Run the server start function
+startServer() // Ejecuta la función de inicio del servidor
