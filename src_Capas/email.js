@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { logDebug } from './Errores/Winston'
+import { logDebug } from './Errores/Winston.js'
 
 const transport = nodemailer.createTransport({
     service: 'gmail',
