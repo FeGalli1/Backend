@@ -1,30 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 // Limpiar la caché de Mongoose
-mongoose.models = {};
-mongoose.modelSchemas = {};
+mongoose.models = {}
+mongoose.modelSchemas = {}
 
-const { Schema, model } = mongoose;
+const { Schema, model } = mongoose
 const cartSchema = Schema({
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  products: [
-    {
-      product: {
-        type: String, 
-        ref: 'Product',
-      },
-      quantity: {
-        type: Number,
-        default: 1,
-      },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     },
-  ],
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
-});
+    products: [
+        {
+            product: {
+                type: String,
+                ref: 'Product',
+            },
+            quantity: {
+                type: Number,
+                default: 1,
+            },
+        },
+    ],
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now },
+})
 
-
-export const Cart = model('Cart', cartSchema);
+export const Cart = model('Cart', cartSchema)

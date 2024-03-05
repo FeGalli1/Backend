@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
     first_name: String,
@@ -10,8 +10,8 @@ const userSchema = new mongoose.Schema({
     role: { type: String, default: 'user' },
     resetToken: String, // Token para restablecer la contraseña
     resetTokenExpiration: Date, // Fecha de expiración del token de restablecimiento de contraseña
-});
+})
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema)
 
-export default User;
+export default User

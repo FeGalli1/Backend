@@ -12,7 +12,6 @@
 
 // const anonymousChats = new Map();
 
-
 // io.on('connection', (socket) => {
 //   let messageHistory = [];
 //   io.emit('mensaje', "hola mundo");

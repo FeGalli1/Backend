@@ -1,7 +1,7 @@
 import passport from 'passport'
 import { createHash, isValidPassword, sendPasswordResetEmail } from '../utils/helpers.js'
 import User from '../../Persistencia/models/UserModel.js'
-import { Cart } from '../../persistencia/models/CartsModel.js'
+import { Cart } from '../../Persistencia/models/CartsModel.js'
 import { createError, errors } from '../../Errores/errorModule.js'
 import { logDebug } from '../../Errores/Winston.js'
 

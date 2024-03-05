@@ -20,7 +20,7 @@ readdirSync(PATH_ROUTES).filter(filename => {
                 }
             })
             .catch(error => {
-                logError(`Error loading ${routerFilename}: `,error)
+                logError(`Error loading ${routerFilename}: `, error)
             })
     }
 })

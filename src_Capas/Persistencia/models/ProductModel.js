@@ -24,10 +24,9 @@ const productSchema = Schema({
     description: {
         type: String,
         required: true,
-    },   
+    },
     stock: { type: Number, default: 0 },
-    owner: { type: String, 
-            default: 'admin' },
+    owner: { type: String, default: 'admin' },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 })
