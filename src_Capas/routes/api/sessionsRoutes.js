@@ -10,12 +10,6 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     res.json({ status: 'success', user: req.user })
 })
 
-// Logout
-router.get('/logout', (req, res) => {
-    req.logout()
-    res.json({ status: 'success', message: 'Logout successful' })
-})
-
 // Current User
 router.get('/current', (req, res) => {
     if (req.isAuthenticated()) {
@@ -32,6 +26,16 @@ router.get('/current', (req, res) => {
     } else {
         res.status(401).json({ status: 'error', message: 'User not authenticated' })
     }
+})
+// Logout
+router.get('/logout', (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).json({ status: 'error', message: 'No session active' })
+    }
+
+    req.logout(() => {
+        res.json({ status: 'success', message: 'Logout successful' })
+    })
 })
 
 router.get('/protected-route', requireAuth, (req, res) => {

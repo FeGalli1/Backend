@@ -1,4 +1,4 @@
-import { Cart } from '../../persistencia/models/CartsModel.js'
+import { Cart } from '../../Persistencia/models/CartsModel.js'
 import { Product } from '../models/ProductModel.js'
 import { Ticket } from '../models/TicketsModel.js'
 import User from '../models/UserModel.js'

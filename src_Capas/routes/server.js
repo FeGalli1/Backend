@@ -69,13 +69,6 @@ const createServerConfig = () => {
     // Rutas de login
     server.use('/', routerLog)
 
-    // Manejo de errores global
-    server.use((err, res) => {
-        logError(`Error: ${err.message}`)
-        logError(err.stack)
-        res.status(500).send('Error interno del servidor')
-    })
-
     // Endpoint para probar los logs
     server.get('/loggerTest', (req, res) => {
         logError('Esto es un error de prueba')
@@ -103,7 +96,6 @@ const createServerConfig = () => {
     })
 
     const serverChat = createServer(server)
-    logDebug('entro')
     const io = new Server(serverChat)
     const anonymousChats = new Map()
 

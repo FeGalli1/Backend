@@ -52,6 +52,14 @@ export const getProductById = async productId => {
         throw logError(500, 'Error al obtener el producto desde la base de datos.')
     }
 }
+export const getProductByOwner = async ownerId => {
+    try {
+        const products = await Product.find({ owner: ownerId }).exec()
+        return products
+    } catch (error) {
+        throw new Error('Error al obtener los productos por owner: ' + error.message)
+    }
+}
 
 export const deleteProductById = async productId => {
     try {

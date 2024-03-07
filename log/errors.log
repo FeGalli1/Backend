@@ -1,75 +1,59 @@
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
+{"level":"error","message":"Error: undefined"}
+{"level":"error"}
 {"level":"error","message":"Esto es un error de prueba"}
-{"level":"error","message":"Esto es un error de prueba"}
-[31merror[39m: Esto es un error de prueba
-[31merror[39m: Esto es un error de prueba
-{"level":"error","message":"Esto es un error de prueba"}
-{"level":"error","message":"Error starting server:Error [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Errores\\Winston' imported from C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Persistencia\\Mock\\mockingModule.js"}
-{"level":"error","message":"Error starting server:ReferenceError: renderForgotPasswordForm is not defined"}
-{"level":"error","message":"Error: Failed to lookup view \"forgot-password\" in views directory \"C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\""}
-{"level":"error","message":"Error: Failed to lookup view \"forgot-password\" in views directory \"C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\"\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:597:17)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/routes/routerLog.js:69:9\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\route.js:144:13)\n    at Route.dispatch (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\route.js:114:3)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:280:10)"}
-{"level":"error","message":"Error: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\forgot-password.ejs:10\n    8| <body>\r\n    9|     <h1>Forgot Password</h1>\r\n >> 10|     <% if (error) { %>\r\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n    13|     <form action=\"/forgot-password\" method=\"POST\">\r\n\nerror is not defined"}
-{"level":"error","message":"ReferenceError: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\forgot-password.ejs:10\n    8| <body>\r\n    9|     <h1>Forgot Password</h1>\r\n >> 10|     <% if (error) { %>\r\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n    13|     <form action=\"/forgot-password\" method=\"POST\">\r\n\nerror is not defined\n    at eval (\"C:\\\\Users\\\\Galli\\\\Desktop\\\\DesarrolloWeb\\\\BackEnd\\\\src_Capas\\\\Visualizacion\\\\views\\\\forgot-password.ejs\":12:8)\n    at forgot-password (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:274:36)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/routes/routerLog.js:69:9\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
-{"level":"error","message":"Error starting server:SyntaxError: Unexpected token 'export'"}
-{"level":"error","message":"Error: Failed to lookup view \"forgot-password-success\" in views directory \"C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\""}
-{"level":"error","message":"Error: Failed to lookup view \"forgot-password-success\" in views directory \"C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\"\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:597:17)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at processForgotPasswordForm (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/controllers/AuthController.js:108:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
-{"level":"error","message":"Error: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:10\n    8| <body>\r\n    9|     <h1>Reset Password</h1>\r\n >> 10|     <% if (error) { %>\r\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n    13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n\nerror is not defined"}
-{"level":"error","message":"ReferenceError: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:10\n    8| <body>\r\n    9|     <h1>Reset Password</h1>\r\n >> 10|     <% if (error) { %>\r\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n    13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n\nerror is not defined\n    at eval (\"C:\\\\Users\\\\Galli\\\\Desktop\\\\DesarrolloWeb\\\\BackEnd\\\\src_Capas\\\\Visualizacion\\\\views\\\\reset-password.ejs\":12:8)\n    at reset-password (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:274:36)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at renderResetPasswordForm (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/controllers/AuthController.js:125:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
-{"level":"error","message":"Error: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined"}
-{"level":"error","message":"ReferenceError: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined\n    at eval (\"C:\\\\Users\\\\Galli\\\\Desktop\\\\DesarrolloWeb\\\\BackEnd\\\\src_Capas\\\\Visualizacion\\\\views\\\\reset-password.ejs\":21:26)\n    at reset-password (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:274:36)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at processResetPasswordForm (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/controllers/AuthController.js:139:20)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
-{"level":"error","message":"Error: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined"}
-{"level":"error","message":"ReferenceError: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined\n    at eval (\"C:\\\\Users\\\\Galli\\\\Desktop\\\\DesarrolloWeb\\\\BackEnd\\\\src_Capas\\\\Visualizacion\\\\views\\\\reset-password.ejs\":21:26)\n    at reset-password (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:274:36)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at processResetPasswordForm (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/controllers/AuthController.js:139:20)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
-{"level":"error","message":"Error: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined"}
-{"level":"error","message":"ReferenceError: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined\n    at eval (\"C:\\\\Users\\\\Galli\\\\Desktop\\\\DesarrolloWeb\\\\BackEnd\\\\src_Capas\\\\Visualizacion\\\\views\\\\reset-password.ejs\":21:26)\n    at reset-password (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:274:36)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at processResetPasswordForm (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/controllers/AuthController.js:137:20)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
-{"level":"error","message":"Error: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined"}
-{"level":"error","message":"ReferenceError: C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\src_Capas\\Visualizacion\\views\\reset-password.ejs:13\n    11|         <p>Error: <%= error %></p>\r\n    12|     <% } %>\r\n >> 13|     <form action=\"/reset-password/<%= token %>\" method=\"POST\">\r\n    14|         <label for=\"newPassword\">New Password:</label>\r\n    15|         <input type=\"password\" id=\"newPassword\" name=\"newPassword\" required>\r\n    16|         <label for=\"confirmPassword\">Confirm Password:</label>\r\n\ntoken is not defined\n    at eval (\"C:\\\\Users\\\\Galli\\\\Desktop\\\\DesarrolloWeb\\\\BackEnd\\\\src_Capas\\\\Visualizacion\\\\views\\\\reset-password.ejs\":21:26)\n    at reset-password (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:703:17)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:274:36)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)\n    at ServerResponse.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1039:7)\n    at processResetPasswordForm (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/controllers/AuthController.js:137:20)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)"}
-{"level":"error","message":"Error starting server:ReferenceError: mongoose is not defined"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error","message":500}
-{"level":"error","message":500}
-{"level":"error","message":500}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error","message":"Error: req.flash is not a function"}
-{"level":"error","message":"TypeError: req.flash is not a function\n    at allFailed (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\passport\\lib\\middleware\\authenticate.js:134:15)\n    at attempt (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\passport\\lib\\middleware\\authenticate.js:183:28)\n    at strategy.fail (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\passport\\lib\\middleware\\authenticate.js:314:9)\n    at verified (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\passport-local\\lib\\strategy.js:82:30)\n    at Strategy._verify (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/utils/Passport.js:20:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
-{"level":"error"}
-{"level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error","message":500}
-{"level":"error","message":500}
 {"level":"error","message":500}
 {"level":"error"}
 {"level":"error","message":500}
 {"level":"error"}
 {"level":"error","message":500}
 {"level":"error"}
+{"level":"error"}
 {"level":"error","message":500}
 {"level":"error"}
+{"level":"error"}
+{"level":"error","message":500}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":500}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":500}
+{"level":"error"}
+{"level":"error","message":500}
+{"level":"error"}
+{"level":"error"}
+{"level":"error","message":500}
+{"level":"error"}
+{"_message":"Product validation failed","errors":{"category":{"kind":"enum","message":"`Computadoras` is not a valid enum value for path `category`.","name":"ValidatorError","path":"category","properties":{"enumValues":["computers","phones","accesories"],"message":"`Computadoras` is not a valid enum value for path `category`.","path":"category","type":"enum","value":"Computadoras"},"value":"Computadoras"}},"level":"error"}
+{"level":"error","message":500}
+{"level":"error"}
+{"level":"error","message":500}
 {"level":"error"}
 {"level":"error"}
 {"level":"error","message":500}
@@ -80,62 +64,7 @@
 {"level":"error"}
 {"level":"error","message":500}
 {"level":"error"}
-{"level":"error","message":500}
-{"level":"error"}
-{"level":"error","message":"Error al crear el producto en la base de datos."}
-{"level":"error"}
-{"_message":"Product validation failed","errors":{"category":{"kind":"enum","message":"`borrador` is not a valid enum value for path `category`.","name":"ValidatorError","path":"category","properties":{"enumValues":["computers","phones","accesories"],"message":"`borrador` is not a valid enum value for path `category`.","path":"category","type":"enum","value":"borrador"},"value":"borrador"},"owner":{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"admin\" (type string) at path \"owner\" because of \"BSONTypeError\"","name":"CastError","path":"owner","reason":{},"stringValue":"\"admin\"","value":"admin","valueType":"string"}},"level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error","message":"Error starting server:SyntaxError: Named export 'log' not found. The requested module 'winston' is a CommonJS module, which may not support all module.exports as named exports.\nCommonJS modules can always be imported via the default export, for example using:\n\nimport pkg from 'winston';\nconst { log } = pkg;\n"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error","message":"Error starting server:SyntaxError: Unexpected token '{'"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error","message":"user does not export a router."}
-{"level":"error","message":"Error loading user: "}
-{"level":"error","message":"user does not export a router."}
-{"level":"error","message":"Error: Cannot read properties of undefined (reading 'role')"}
-{"level":"error","message":"TypeError: Cannot read properties of undefined (reading 'role')\n    at isAdmin (file:///C:/Users/Galli/Desktop/DesarrolloWeb/BackEnd/src_Capas/Controles/middleware/authMiddleware.js:17:59)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:328:13)\n    at C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:286:9\n    at Function.process_params (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:47:12)\n    at Layer.handle [as handle_request] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at trim_prefix (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\router\\index.js:328:13)"}
-{"level":"error","message":"user does not export a router."}
-{"level":"error","message":"user does not export a router."}
-{"level":"error","message":"user does not export a router."}
-{"level":"error","message":"user does not export a router."}
-{"level":"error","message":"Error loading user: "}
-{"level":"error","message":"Error loading user: "}
-{"level":"error","message":"Error loading user: "}
-{"level":"error","message":"Error loading user: "}
-{"level":"error","message":"Error loading user: "}
-{"level":"error","message":"Error loading user: "}
-{"code":"ERR_HTTP_HEADERS_SENT","level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error"}
-{"level":"error","message":"Error: Cannot set headers after they are sent to the client"}
-{"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client\n    at new NodeError (node:internal/errors:406:5)\n    at ServerResponse.setHeader (node:_http_outgoing:652:11)\n    at ServerResponse.header (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:794:10)\n    at ServerResponse.send (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:174:12)\n    at done (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\response.js:1035:10)\n    at tryHandleCache (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:280:5)\n    at exports.renderFile [as engine] (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\ejs\\lib\\ejs.js:491:10)\n    at View.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\view.js:135:8)\n    at tryRender (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:657:10)\n    at Function.render (C:\\Users\\Galli\\Desktop\\DesarrolloWeb\\BackEnd\\node_modules\\express\\lib\\application.js:609:3)"}
-{"level":"error","message":"Error loading Product: "}
-{"level":"error","message":"Error loading Product: "}
-{"level":"error","message":"Error loading Product: "}
+{"level":"error","message":"Error loading sessionsRoutes: "}
+{"level":"error","message":"Error loading sessionsRoutes: "}
+{"level":"error","message":"Error loading sessionsRoutes: "}
+{"level":"error","message":"Error loading sessionsRoutes: "}

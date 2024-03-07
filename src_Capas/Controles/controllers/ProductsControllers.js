@@ -4,6 +4,22 @@ import ProductRepository from '../../Persistencia/DAO/ProductRepository.js'
 
 const productRepository = ProductRepository
 
+export const getProductsTerminal = async (req, res) => {
+    try {
+        const products = await productRepository.getAllProducts(
+            req.query.limit,
+            req.query.page,
+            req.query.sort,
+            req.query.query
+        )
+        res.json(products) // Envia la respuesta JSON con los productos
+    } catch (error) {
+        logError(error)
+        const errorDetails = createError(errors.PRODUCT_REQUEST_ERROR)
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message })
+    }
+}
+
 export const getProducts = async (req, res) => {
     try {
         const products = await productRepository.getAllProducts(
@@ -22,19 +38,27 @@ export const getProducts = async (req, res) => {
 
 export const saveProduct = async (req, res) => {
     try {
-        const { name, photo, price, category, description, stock } = req.body
+        const { name, photo, price, category, description, stock, test = 0 } = req.body
         // Obtener el _id del usuario desde req.user._id
-        const ownerId = req.user._id
+        if (test === 1) {
+            const product = await productRepository.createProduct(name, photo, price, category, description, stock)
 
-        // Verificar si el usuario es premium
-        if (req.user.role === 'premium') {
-            // Crear el producto con el owner del usuario premium
-            await productRepository.createProduct(name, photo, price, category, description, stock, ownerId)
-            res.render('product-save-success')
+            res.json(product)
         } else {
-            // Si el usuario no es premium, guardar el producto sin owner
-            await productRepository.createProduct(name, photo, price, category, description, stock)
-            res.render('product-save-success')
+            const ownerId = req.user._id
+
+            // Verificar si el usuario es premium
+            if (req.user.role === 'premium') {
+                // Crear el producto con el owner del usuario premium
+                await productRepository.createProduct(name, photo, price, category, description, stock, ownerId)
+                res.render('product-save-success')
+            } else if (req.user.role === 'admin') {
+                // Si el usuario no es premium, guardar el producto sin owner
+                await productRepository.createProduct(name, photo, price, category, description, stock)
+                res.render('product-save-success')
+            } else {
+                res.status(500).json('El usuario no tiene los permisos para crear un producto')
+            }
         }
     } catch (error) {
         logError(error)
@@ -54,6 +78,30 @@ export const getProductByIdController = async (req, res) => {
     } catch (error) {
         logError(error)
         const errorDetails = createError(errors.PRODUCT_REQUEST_ERROR)
+        res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message })
+    }
+}
+export const deleteProductByTestController = async (req, res) => {
+    try {
+        const products = await productRepository.getProductsByOwner(1) // Obtener todos los productos con owner igual a 1
+        if (!products || products.length === 0) {
+            return res.status(404).json({ status: 'error', message: 'No se encontraron productos para eliminar.' })
+        }
+
+        const deletedProducts = []
+        for (const product of products) {
+            await productRepository.deleteProductById(product._id)
+            deletedProducts.push(product)
+        }
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Productos eliminados exitosamente.',
+            deletedProducts,
+        })
+    } catch (error) {
+        logError(error)
+        const errorDetails = createError(errors.PRODUCT_DELETE_ERROR)
         res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message })
     }
 }

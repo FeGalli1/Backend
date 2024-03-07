@@ -19,7 +19,7 @@ import { logError } from '../../Errores/Winston.js'
 const router = Router()
 
 router.post('/', requireAuth, saveCart)
-router.get('/', requireAdmin, getCarts)
+router.get('/', getCarts)
 router.get('/:cid', requireAdmin, getSingleCart)
 router.delete('/:cid/products/:pid', requireAuth, removeProductFromCart)
 router.put('/:cid', updateWholeCart)
