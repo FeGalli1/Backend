@@ -5,24 +5,32 @@ import { Router } from 'express'
 import { logError } from '../../Errores/Winston.js'
 
 const router = Router()
-const PATH_ROUTES = dirname(`${import.meta.url}`).split('file:///')[1]
 
-readdirSync(PATH_ROUTES).filter(filename => {
-    const routerFilename = removeExtensionFilename(filename)
+// Función para cargar dinámicamente las rutas
+async function loadRoutes(directoryPath) {
+    const filenames = readdirSync(directoryPath)
 
-    if (routerFilename !== 'index') {
-        import(`./${routerFilename}.js`)
-            .then(routerModule => {
+    for (const filename of filenames) {
+        const routerFilename = removeExtensionFilename(filename)
+
+        if (routerFilename !== 'index') {
+            try {
+                const routerModule = await import(`./${routerFilename}.js`)
+
                 if (routerModule.router) {
                     router.use(`/${routerFilename}`, routerModule.router)
                 } else {
                     logError(`${routerFilename} does not export a router.`)
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 logError(`Error loading ${routerFilename}: `, error)
-            })
+            }
+        }
     }
-})
+}
+
+// Carga las rutas desde la carpeta "routes"
+const PATH_ROUTES = dirname(__filename)
+loadRoutes(PATH_ROUTES)
 
 export { router }
