@@ -4,6 +4,7 @@ import { removeExtensionFilename } from '../../Controles/utils/helpers.js'
 import { Router } from 'express'
 import { logError } from '../../Errores/Winston.js'
 
+import { fileURLToPath } from 'url'
 const router = Router()
 
 // Función para cargar dinámicamente las rutas
@@ -29,7 +30,7 @@ async function loadRoutes(directoryPath) {
     }
 }
 
-// Carga las rutas desde la carpeta "routes"
+const __filename = fileURLToPath(import.meta.url)
 const PATH_ROUTES = dirname(__filename)
 loadRoutes(PATH_ROUTES)
 
