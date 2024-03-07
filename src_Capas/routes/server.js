@@ -109,6 +109,7 @@ const createServerConfig = () => {
             const mensaje = data.mensaje
 
             // Aquí puedes usar socket.to(destinatario).emit para enviar el mensaje al destinatario específico
+            logInfo(`envie el mensaje ${mensaje}`)
             io.to(destinatario).emit('mensaje', mensaje)
         })
 
