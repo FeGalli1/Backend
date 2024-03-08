@@ -15,6 +15,7 @@
 // }
 
 // export default config
+
 import dotenv from 'dotenv'
 
 dotenv.config('./env') // Cargar las variables de entorno del archivo correspondiente
@@ -28,14 +29,15 @@ if (node_Env === 'production') {
 dotenv.config({ path: envFile }) // Cargar las variables de entorno del archivo correspondiente
 
 const config = {
-    PORT: process.env.PORT,
     NODE_ENV: node_Env,
+    PORT: process.env.PORT,
     MONGODB_URL: process.env.MONGODB_URL,
     MONGODB_ATLAS_CONNECTION_STRING: process.env.MONGODB_ATLAS_CONNECTION_STRING,
     COOKIEKEY: process.env.COOKIEKEY,
     ID_CLIENT: process.env.ID_CLIENT,
     CLIENT_SECRET: process.env.CLIENT_SECRET,
     CALLBACKURL: process.env.CALLBACKURL,
+    MONGO_URL_SOLO: process.env.MONGO_URL_SOLO,
 }
 
 export default config

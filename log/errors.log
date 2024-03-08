@@ -68,3 +68,4 @@
 {"level":"error","message":"Error loading sessionsRoutes: "}
 {"level":"error","message":"Error loading sessionsRoutes: "}
 {"level":"error","message":"Error loading sessionsRoutes: "}
+{"level":"error","message":"Error en el test de conexión a la base de datos: MongoParseError: Invalid scheme, expected connection string to start with \"mongodb://\" or \"mongodb+srv://\""}

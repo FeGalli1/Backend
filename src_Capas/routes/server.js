@@ -101,7 +101,7 @@ const createServerConfig = () => {
 
     io.on('connection', socket => {
         let messageHistory = []
-        io.emit('mensaje', 'hola mundo')
+        io.emit('mensaje', 'Bienvenido')
 
         // En el lado del servidor, deberías manejar el mensajePrivado así:
         socket.on('mensajePrivado', data => {

@@ -3,7 +3,7 @@ import supertest from 'supertest'
 import config from '../config.js'
 import { describe, it } from 'mocha'
 
-const PORT = config.PORT
+const PORT = config.PORT || 8080
 const requester = supertest(`http://localhost:${PORT}`)
 
 describe('Router de carritos', () => {

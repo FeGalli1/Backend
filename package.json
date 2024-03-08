@@ -8,6 +8,7 @@
         "postinstall": "husky install",
         "start": "node ./src_Capas/app.js",
         "dev": "nodemon src_Capas/app.js",
+        "test": "mocha ./src_Capas/Test/sessions.test.js ./src_Capas/Test/products.test.js ./src_Capas/Test/mongoDB.test.js ./src_Capas/Test/carts.test.js",
         "format": "prettier --write .",
         "lint": "eslint --fix . --ext .js"
     },
