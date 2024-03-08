@@ -50,7 +50,6 @@ export const calculateTotalAmount = productsToPurchase => {
 
 import crypto from 'crypto'
 import { sendGmail } from '../../email.js'
-import config from '../../config.js'
 
 //  Generación de token de restablecimiento de contraseña
 const generateResetToken = () => {
@@ -58,7 +57,7 @@ const generateResetToken = () => {
 }
 
 // Envío del correo electrónico con el enlace de restablecimiento
-export const sendPasswordResetEmail = async email => {
+export const sendPasswordResetEmail = async (req, email) => {
     try {
         const user = await User.findOne({ email })
         if (!user) {
@@ -70,7 +69,7 @@ export const sendPasswordResetEmail = async email => {
         user.resetTokenExpiration = Date.now() + 3600000 // 1 hora de expiración
         await user.save()
 
-        const resetLink = `http://localhost:${config.PORT}/reset-password/${resetToken}`
+        const resetLink = `${req.protocol}://${req.get('host')}/reset-password/${resetToken}`
         const emailContent = `Para restablecer tu contraseña, haz clic en el siguiente enlace: <a href="${resetLink}">Restablecer contraseña</a>`
 
         // Aquí debes enviar el correo electrónico utilizando tu método de envío de correo electrónico

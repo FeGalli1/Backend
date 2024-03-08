@@ -69,3 +69,21 @@
 {"level":"error","message":"Error loading sessionsRoutes: "}
 {"level":"error","message":"Error loading sessionsRoutes: "}
 {"level":"error","message":"Error en el test de conexión a la base de datos: MongoParseError: Invalid scheme, expected connection string to start with \"mongodb://\" or \"mongodb+srv://\""}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"user does not export a router."}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}

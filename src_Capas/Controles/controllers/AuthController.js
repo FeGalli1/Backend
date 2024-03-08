@@ -56,10 +56,16 @@ export const handleSuccessfulLogin = async (req, res) => {
         // Obtiene el carrito asociado al usuario
         const cart = await Cart.findById(req.user.cart)
 
+        // Obtiene el usuario autenticado desde la solicitud
+        const user = req.user
+
+        // Actualiza la propiedad last_connection del usuario con la fecha y hora actuales
+        user.last_connection = new Date()
+        await user.save()
+
         // Guarda el carrito obtenido en la sesión del usuario
         req.session.userCart = cart
-        req.session.user = req.user
-
+        req.session.user = user
         res.redirect('/products')
     } catch (error) {
         console.error(error)
@@ -102,7 +108,7 @@ export const renderForgotPasswordForm = (req, res) => {
 export const processForgotPasswordForm = async (req, res) => {
     const { email } = req.body
     try {
-        await sendPasswordResetEmail(email)
+        await sendPasswordResetEmail(req, email)
         res.render('forgot-password-success')
     } catch (error) {
         console.error(error)
