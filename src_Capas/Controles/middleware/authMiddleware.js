@@ -1,6 +1,6 @@
 export const requireAuth = (req, res, next) => {
     // Verifica si el usuario está autenticado
-    if (req.session.userId) {
+    if (req.session.user) {
         // Si está autenticado, continúa con la siguiente ruta o middleware
         return next()
     } else {

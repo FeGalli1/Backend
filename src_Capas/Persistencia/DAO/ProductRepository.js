@@ -7,9 +7,9 @@ class ProductRepository {
         return await ProductDAO.getAllProducts(limit, page, sort, query)
     }
 
-    async createProduct(name, photo, price, category, description, owner = 'admin') {
+    async createProduct(name, photo, price, category, description, stock, ownerId = 'admin') {
         // Implementa la lógica para crear un producto
-        return await ProductDAO.createProduct(name, photo, price, category, description, owner)
+        return await ProductDAO.createProduct(name, photo, price, category, description, stock, ownerId)
     }
     async getProductsByOwner(number) {
         // Implementa la lógica para obtener un producto por su ID

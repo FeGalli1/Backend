@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .borde {
+            width: 100%;
+            height: 15rem;
+        }
+        .borde img {
+            width: 100%;
+            height: 100%;
+        }
+        .cart1 {
+            margin-bottom: 2rem;
+            height: 28rem;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <% if (message) { %>
+        <span><%= message %></span>
+    <% } %>
+    <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2  row-cols-lg-3 g-3">
+            <div class="col">
+                <div class="card cart1 justify-content-center">
+                    <div class="borde">
+                        <img src="<%= profileImage %>" class="card-img-top" alt="Imagen de Perfil">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Nombre:</strong> <%= user.first_name %> <%= user.last_name %></h5>
+                        <p class="card-text"><strong>Correo Electrónico:</strong> <br> <%= user.email %></p>
+                        <div class="button-container">
+                            <p class="card-text"><strong>Rol:</strong> <%= user.role %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form action="/api/user/<%= user._id %>/documents" method="POST" enctype="multipart/form-data">
+            <select name="documentType">
+                <option value="profile">Foto de Perfil</option>
+                <option value="dni">DNI</option>
+                <option value="other">Otros</option>
+            </select>
+            <input type="file" name="documents" multiple>
+            <button type="submit">Subir Documentos</button>
+        </form>
+    </div>
+    <!-- Scripts de Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

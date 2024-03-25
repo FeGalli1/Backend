@@ -1,6 +1,9 @@
-import { logError, logInfo } from '../../Errores/Winston.js'
+import { logError } from '../../Errores/Winston.js'
 import { createError, errors } from '../../Errores/errorModule.js'
 import ProductRepository from '../../Persistencia/DAO/ProductRepository.js'
+import { getUserById } from '../../Persistencia/DAO/userDAO.js'
+import { Product } from '../../Persistencia/models/ProductModel.js'
+import { sendGmail } from '../../email.js'
 
 const productRepository = ProductRepository
 
@@ -38,6 +41,7 @@ export const getProducts = async (req, res) => {
 
 export const saveProduct = async (req, res) => {
     try {
+        console.log(req.body)
         const { name, photo, price, category, description, stock, test = 0 } = req.body
         // Obtener el _id del usuario desde req.user._id
         if (test === 1) {
@@ -111,9 +115,7 @@ export const deleteProductByIdController = async (req, res) => {
     try {
         const productId = req.params.id
         const product = await productRepository.getProductById(productId)
-        logInfo(product.owner)
-        logInfo(req.user._id)
-        logInfo(req.user.role)
+        const userId = product.owner
         // Verificar si el producto existe antes de intentar eliminarlo
         if (!product) {
             const errorDetails = createError(errors.PRODUCT_NOT_FOUND)
@@ -126,6 +128,14 @@ export const deleteProductByIdController = async (req, res) => {
             (req.user.role === 'premium' && product.owner.toString() === req.user._id.toString())
         ) {
             await productRepository.deleteProductById(productId)
+            if (userId) {
+                const user = await getUserById(userId)
+                sendGmail(
+                    user.email,
+                    'Producto Eliminado',
+                    `${user.first_name} ${user.last_name} elimino tu producto:  ${product.name}. Cualquier cosa cominuquese con algun administrador `
+                )
+            }
             res.status(200).json({
                 status: 'success',
                 message: 'Producto eliminado exitosamente.',
@@ -170,5 +180,13 @@ export const updateProductByIdController = async (req, res) => {
         logError(error)
         const errorDetails = createError(errors.PRODUCT_UPDATE_ERROR)
         res.status(errorDetails.status).json({ status: 'error', error: errorDetails.message })
+    }
+}
+
+export const deleteProductsByUserId = async userId => {
+    try {
+        await Product.deleteMany({ owner: userId })
+    } catch (error) {
+        throw new Error(`Error al eliminar los productos del usuario ${userId}: ${error.message}`)
     }
 }

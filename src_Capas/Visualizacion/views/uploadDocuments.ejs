@@ -7,7 +7,12 @@
 </head>
 <body>
     <h1>Subir Documentos</h1>
-    <form action="/api/users/<%= userId %>/documents" method="POST" enctype="multipart/form-data">
+    <form action="/api/user/<%= userId %>/documents" method="POST" enctype="multipart/form-data">
+        <select name="documentType">
+            <option value="profile">Foto de Perfil</option>
+            <option value="dni">DNI</option>
+            <option value="other">Otros</option>
+        </select>
         <input type="file" name="documents" multiple>
         <button type="submit">Subir Documentos</button>
     </form>

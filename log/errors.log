@@ -87,3 +87,25 @@
 {"level":"error","message":"Error loading user: "}
 {"level":"error","message":"Error loading user: "}
 {"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error loading user: "}
+{"level":"error","message":"Error al cambiar el rol del usuario 65a46b1122f6cc62c9df9027: req.flash is not a function"}
+{"level":"error","message":"Error al eliminar usuarios inactivos: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Error al eliminar los productos del usuario 6600a75389d42a22a3ab3e73: Product is not defined"}
+{"level":"error","message":"Error al enviar correo electrónico a RegistroBorrar@yopmail.com: sendEmail is not defined"}
+{"level":"error","message":"Error al eliminar usuario: Cannot read properties of null (reading 'email')"}
+{"level":"error","message":"Error al eliminar usuario: Cannot read properties of null (reading 'email')"}

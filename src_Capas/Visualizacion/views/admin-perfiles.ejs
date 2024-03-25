@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .borde {
+            width: 100%;
+            height: 15rem;
+        }
+        .borde img {
+            width: 100%;
+            height: 100%;
+        }
+        .cart1 {
+            margin-bottom: 2rem;
+            height: 28rem;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <% if (successMessage || errorMessage) { %>
+        <div id="modal-mensaje" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body alert alert-<%= successMessage ? 'success' : 'danger' %> d-flex flex-column justify-content-center align-items-center">
+                        <% if (successMessage) { %>
+                            <h1 class="text-success"><%= successMessage %></h1>
+                        <% } if(errorMessage) { %>
+                            <h1 class="text-danger"><%= errorMessage %></h1>
+                        <% } %>
+                        <button class="btn btn-sm btn-primary" onclick="cerrarMensaje()">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+        
+
+    <div class="container mt-5">
+        <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2  row-cols-lg-3 g-3">
+            <% users.forEach((user, index) => { %>
+            <div class="col">
+                <div class="card cart1 justify-content-center">
+                    <div class="borde">
+                        <img src="<%= profileImages[index] %>" class="card-img-top" alt="Imagen de Perfil">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Nombre:</strong> <%= user.first_name %> <%= user.last_name %></h5>
+                        <p class="card-text"><strong>Correo Electrónico:</strong> <br> <%= user.email %></p>
+                        <div class="button-container">
+                            <p class="card-text"><strong>Rol:</strong> <%= user.role %></p>
+                            <% if (user.role !== 'admin') { %>
+                                <div>
+                                    <form action="/api/user/premium/<%= user._id %>" method="POST">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <button type="submit" class="btn btn-dark">Cambiar</button>
+                                    </form>
+                                    <button class="btn btn-danger eliminar-usuario" onclick="eliminarUsuario('<%= user._id %>')">Eliminar</button>                            
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+                function eliminarUsuario(idUsuario) {
+        // Construir la URL de la API
+        const url = `/api/user/${idUsuario}`;
+
+        // Opciones de la solicitud
+        const options = {
+            method: 'DELETE',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+        };
+
+        // Enviar la solicitud y manejar la respuesta
+        fetch(url, options)
+            .then((response) => {
+            if (response.ok) {
+                // Mostrar mensaje de éxito
+                console.log('Usuario eliminado correctamente');
+                // Actualizar la interfaz de usuario (opcional)
+                // ...
+            } else {
+                // Mostrar mensaje de error
+                console.log('Error al eliminar usuario:', response.statusText);
+            }
+            })
+            .catch((error) => {
+            // Mostrar mensaje de error de red
+            console.log('Error de red:', error.message);
+            });
+        }
+
+    </script>
+</body>
+</html>

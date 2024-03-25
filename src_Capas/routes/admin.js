@@ -8,6 +8,8 @@ import {
     updateProductByIdController,
 } from '../Controles/controllers/ProductsControllers.js'
 import { logError } from '../Errores/Winston.js'
+import { getAllUsers } from '../Persistencia/DAO/userDAO.js'
+import { requireAdmin } from '../Controles/middleware/adminMiddleware.js'
 
 const adminRouter = express.Router()
 
@@ -113,4 +115,39 @@ adminRouter.post('/productos/:id/editar', async (req, res) => {
     }
 })
 
+adminRouter.get('/profiles', requireAdmin, async (req, res) => {
+    try {
+        const users = await getAllUsers()
+        const profileImages = []
+        // Obtener la ruta absoluta de la foto predeterminada
+
+        const defaultImagePath = '/../../documents/fotoBlanco.jpg' // Buscar la imagen de perfil para cada usuario
+        for (const user of users) {
+            const profileDocument = user.documents.find(document => document.name === 'profile')
+            if (profileDocument) {
+                const base64Image = `data:image/${profileDocument.name.split('.').pop()};base64,${
+                    profileDocument.content
+                }`
+                profileImages.push(base64Image)
+            } else {
+                // Si no hay imagen de perfil, se puede usar una imagen predeterminada
+                profileImages.push(defaultImagePath)
+            }
+        }
+        const successMessage = req.session.successMessageProfile // Obtener el mensaje de éxito de la sesión si existe
+        const errorMessage = req.session.errorMessageProfile // Obtener el mensaje de error de la sesión si existe
+        // Eliminar los mensajes de la sesión después de haberlos obtenido
+        delete req.session.successMessageProfile
+        delete req.session.errorMessageProfile
+        res.render('admin-perfiles', { users, profileImages, successMessage, errorMessage })
+    } catch (error) {
+        res.status(500).json({
+            status: error,
+            message: 'error al cargar los perfiles de admin',
+        })
+    }
+})
+
 export default adminRouter
+
+//

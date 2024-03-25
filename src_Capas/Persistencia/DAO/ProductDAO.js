@@ -19,7 +19,7 @@ export const getAllProducts = async (limit, page, sort, query) => {
         throw logError(500, 'Error al obtener los productos desde la base de datos.')
     }
 }
-export const createProduct = async (name, photo, price, category, description, owner = 'admin') => {
+export const createProduct = async (name, photo, price, category, description, stock, ownerId = 'admin') => {
     if (!name || !photo || !price || !category || !description) {
         throw createError(400, 'Todos los campos son obligatorios.')
     }
@@ -30,7 +30,8 @@ export const createProduct = async (name, photo, price, category, description, o
         price,
         category,
         description,
-        owner,
+        stock,
+        ownerId,
     })
     logInfo(product)
 

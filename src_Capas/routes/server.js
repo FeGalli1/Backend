@@ -3,7 +3,7 @@ import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import cors from 'cors'
 import { router } from './api/index.js'
-import { renderProductDetails, viewsRouter } from '../Visualizacion/views/views.js'
+import { renderPerfil, renderProductDetails, viewsRouter } from '../Visualizacion/views/views.js'
 import bodyParser from 'body-parser'
 import session from 'express-session'
 import config from '../config.js'
@@ -16,9 +16,11 @@ import passport from 'passport'
 import '../Controles/utils/Passport.js' // Asegúrate de que estás importando tu archivo passport.js correctamente
 import adminRouter from './admin.js'
 import { logError, logWarning, logInfo, logDebug } from '../Errores/Winston.js' // Importa tus funciones de log
-import { notAdmin } from '../Controles/middleware/authMiddleware.js'
+import { notAdmin, requireAuth } from '../Controles/middleware/authMiddleware.js'
 import { mockingProductsEndpoint } from '../Persistencia/Mock/mockingModule.js'
 import { changeRole } from '../Controles/controllers/AuthController.js'
+import methodOverride from 'method-override'
+import flash from 'connect-flash'
 
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
@@ -42,6 +44,11 @@ const createServerConfig = () => {
     }
     server.use(session(sessionOptions))
 
+    server.use(flash())
+    //para poder hacer put desde un form
+    server.use(express.urlencoded({ extended: true }))
+    server.use(methodOverride('_method'))
+
     server.use(passport.initialize())
     server.use(passport.session())
 
@@ -52,8 +59,13 @@ const createServerConfig = () => {
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = dirname(__filename)
 
+    // Servir archivos estáticos desde la carpeta 'documents'
+    server.use('/documents', express.static(path.join(__dirname, '../../documents')))
+
     server.set('view engine', 'ejs')
     server.set('views', path.join(__dirname, '../Visualizacion/views'))
+
+    server.get('/profile', requireAuth, renderPerfil)
 
     server.get('/products', notAdmin, viewsRouter)
     server.get('/products/:productId', notAdmin, renderProductDetails)
