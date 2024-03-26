@@ -98,10 +98,13 @@
         // Si no existe, simplemente agrega el nuevo producto al carrito local
         localCart.push(product);
     }
+    const baseUrl = window.location.origin;
 
+    // Concatenar la URL base con la ruta específica
+    const urlagregar = `${baseUrl}/api/carts/${cartId}`;
     console.log("Productos en el carrito local:", localCart);
             // Realizar la solicitud POST al servidor
-            fetch(`http://localhost:3001/api/carts/${cartId}`, {
+            fetch(urlagregar, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,12 +126,13 @@
                 alert("Error al agregar al carrito. Por favor, inténtalo de nuevo.");
             });
         }
+        const urlfinalizar = `${baseUrl}/api/carts/${cartId}/purchase`;
 
         // Función para finalizar la compra
         function finalizePurchase(cartId) {
             // Enviar todos los productos del carrito al servidor para finalizar la compra
             console.log(localCart);
-            fetch(`http://localhost:3001/api/carts/${cartId}/purchase`, {
+            fetch(urlfinalizar, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
