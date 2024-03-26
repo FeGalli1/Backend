@@ -78,89 +78,94 @@
         <a href="/chat/mensaje" class="floating-button btn btn-primary" >Chatea con un administrador</a>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Carrito local
-        let localCart = [];
+    // Carrito local
+    let localCart = [];
 
-        // Función para agregar al carrito local y enviar al servidor
-        function addToCart(productId, quantity, cartId) {
-    const product = {
-        id: productId,
-        quantity: parseInt(quantity, 10),
-    };
+    // Función para agregar al carrito local y enviar al servidor
+    function addToCart(productId, quantity, cartId) {
+        const product = {
+            id: productId,
+            quantity: parseInt(quantity, 10),
+        };
 
-    // Verifica si ya existe un producto con el mismo ID en el carrito local
-    const existingProductIndex = localCart.findIndex(item => item.id === productId);
+        // Verifica si ya existe un producto con el mismo ID en el carrito local
+        const existingProductIndex = localCart.findIndex(item => item.id === productId);
 
-    if (existingProductIndex !== -1) {
-        // Si ya existe, actualiza la cantidad del producto existente
-        localCart[existingProductIndex].quantity += product.quantity;
-    } else {
-        // Si no existe, simplemente agrega el nuevo producto al carrito local
-        localCart.push(product);
-    }
-    const baseUrl = window.location.origin;
-
-    // Concatenar la URL base con la ruta específica
-    const urlagregar = `${baseUrl}/api/carts/${cartId}`;
-    console.log("Productos en el carrito local:", localCart);
-            // Realizar la solicitud POST al servidor
-            fetch(urlagregar, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ products: localCart }), // Agregamos el producto como un array
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Respuesta del servidor:", data);
-                // Limpiar el carrito local después de agregar el producto
-            })
-            .catch(error => {
-                console.error("Error al realizar la solicitud POST:", error);
-                alert("Error al agregar al carrito. Por favor, inténtalo de nuevo.");
-            });
+        if (existingProductIndex !== -1) {
+            // Si ya existe, actualiza la cantidad del producto existente
+            localCart[existingProductIndex].quantity += product.quantity;
+        } else {
+            // Si no existe, simplemente agrega el nuevo producto al carrito local
+            localCart.push(product);
         }
+
+        const baseUrl = window.location.origin;
+
+        // Concatenar la URL base con la ruta específica
+        const urlagregar = `${baseUrl}/api/carts/${cartId}`;
+
+        console.log("Productos en el carrito local:", localCart);
+
+        // Realizar la solicitud POST al servidor para agregar productos al carrito
+        fetch(urlagregar, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ products: localCart }), // Agregamos el producto como un array
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Respuesta del servidor:", data);
+            // Limpiar el carrito local después de agregar el producto
+        })
+        .catch(error => {
+            console.error("Error al realizar la solicitud POST:", error);
+            alert("Error al agregar al carrito. Por favor, inténtalo de nuevo.");
+        });
+    }
+
+    // Función para finalizar la compra
+    function finalizePurchase(cartId) {
+        const baseUrl = window.location.origin;
+
+        // Concatenar la URL base con la ruta específica para finalizar la compra
         const urlfinalizar = `${baseUrl}/api/carts/${cartId}/purchase`;
 
-        // Función para finalizar la compra
-        function finalizePurchase(cartId) {
-            // Enviar todos los productos del carrito al servidor para finalizar la compra
-            console.log(localCart);
-            fetch(urlfinalizar, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ products: localCart }),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log("Respuesta del servidor:", data);
-                if (data.status === 'success') {
-                    // Limpiar el carrito local después de finalizar la compra
-                    localCart = [];
-                    // Redirigir al usuario a la página del ticket con el ID proporcionado
+        // Enviar todos los productos del carrito al servidor para finalizar la compra
+        fetch(urlfinalizar, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ products: localCart }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Respuesta del servidor:", data);
+            if (data.status === 'success') {
+                // Limpiar el carrito local después de finalizar la compra
+                localCart = [];
+                // Redirigir al usuario a la página del ticket con el ID proporcionado
                 window.location.href = `/api/carts/ticket/${data.ticketId}`;
-                }   
-            })
-            .catch(error => {
-                console.error("Error al realizar la solicitud POST:", error);
-                // Muestra un mensaje de alerta más informativo
-                alert("Error al finalizar la compra. La respuesta del servidor no es válida.");
-            });
-        }
-
-    </script>
+            }   
+        })
+        .catch(error => {
+            console.error("Error al realizar la solicitud POST:", error);
+            // Muestra un mensaje de alerta más informativo
+            alert("Error al finalizar la compra. La respuesta del servidor no es válida.");
+        });
+    }
+</script>
 </body>
 </html>
